@@ -1,0 +1,3927 @@
+id: moduleContainer
+parentSlotId: '2'
+definitionId: customReactApp
+styles:
+  xl:
+    gridItem:
+      x: 0
+      y: 0
+      w: 24
+      h: 40
+properties:
+  name: moduleContainer
+  heightMode: auto
+  margin: false
+  fileSystem:
+    app/app.tsx: >
+      import { useState } from 'react';
+
+      import { Card, CardContent, CardHeader, CardTitle } from
+      '@/components/ui/card';
+
+      import { Tabs, TabsContent, TabsList, TabsTrigger } from
+      '@/components/ui/tabs';
+
+      import { StudentsTab } from '@/components/StudentsTab';
+
+      import { CoursesTab } from '@/components/CoursesTab';
+
+      import { WorkersTab } from '@/components/WorkersTab';
+
+      import { EnrollmentsTab } from '@/components/EnrollmentsTab';
+
+      import { Users, BookOpen, UserCheck, GraduationCap } from 'lucide-react';
+
+
+      function App() {
+        return (
+          <div className="min-h-screen bg-gray-50 p-6">
+            <div className="mx-auto max-w-7xl space-y-6">
+              <div className="text-center space-y-2">
+                <h1 className="text-4xl font-bold text-gray-900">Higher Education Management System</h1>
+                <p className="text-lg text-gray-600">Comprehensive management for students, courses, and staff</p>
+              </div>
+
+              <Tabs defaultValue="students" className="space-y-6">
+                <TabsList className="grid w-full grid-cols-4">
+                  <TabsTrigger value="students" className="flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4" />
+                    Students
+                  </TabsTrigger>
+                  <TabsTrigger value="courses" className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4" />
+                    Courses
+                  </TabsTrigger>
+                  <TabsTrigger value="workers" className="flex items-center gap-2">
+                    <UserCheck className="h-4 w-4" />
+                    Workers
+                  </TabsTrigger>
+                  <TabsTrigger value="enrollments" className="flex items-center gap-2">
+                    <Users className="h-4 w-4" />
+                    Enrollments
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="students">
+                  <StudentsTab />
+                </TabsContent>
+
+                <TabsContent value="courses">
+                  <CoursesTab />
+                </TabsContent>
+
+                <TabsContent value="workers">
+                  <WorkersTab />
+                </TabsContent>
+
+                <TabsContent value="enrollments">
+                  <EnrollmentsTab />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
+        );
+      }
+
+
+      export default App;
+    components/ui/button.tsx: |+
+      import * as React from "react"
+      import { Slot } from "@radix-ui/react-slot"
+      import { cva, type VariantProps } from "class-variance-authority"
+
+      import { cn } from "@/lib/utils"
+
+      const buttonVariants = cva(
+        "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+        {
+          variants: {
+            variant: {
+              default:
+                "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+              destructive:
+                "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+              outline:
+                "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+              secondary:
+                "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+              ghost: "hover:bg-accent hover:text-accent-foreground",
+              link: "text-primary underline-offset-4 hover:underline",
+            },
+            size: {
+              default: "h-9 px-4 py-2",
+              sm: "h-8 rounded-md px-3 text-xs",
+              lg: "h-10 rounded-md px-8",
+              icon: "h-9 w-9",
+            },
+          },
+          defaultVariants: {
+            variant: "default",
+            size: "default",
+          },
+        }
+      )
+
+      export interface ButtonProps
+        extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+          VariantProps<typeof buttonVariants> {
+        asChild?: boolean
+      }
+
+      const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+        ({ className, variant, size, asChild = false, ...props }, ref) => {
+          const Comp = asChild ? Slot : "button"
+          return (
+            <Comp
+              className={cn(buttonVariants({ variant, size, className }))}
+              ref={ref}
+              {...props}
+            />
+          )
+        }
+      )
+      Button.displayName = "Button"
+
+      export { Button, buttonVariants }
+
+
+    components/ui/card.tsx: >+
+      import * as React from "react"
+
+
+      import { cn } from "@/lib/utils"
+
+
+      const Card = React.forwardRef<
+        HTMLDivElement,
+        React.HTMLAttributes<HTMLDivElement>
+      >(({ className, ...props }, ref) => (
+        <div
+          ref={ref}
+          className={cn(
+            "rounded-lg border bg-card text-card-foreground shadow-sm",
+            className,
+          )}
+          {...props}
+        />
+      ))
+
+      Card.displayName = "Card"
+
+
+      const CardHeader = React.forwardRef<
+        HTMLDivElement,
+        React.HTMLAttributes<HTMLDivElement>
+      >(({ className, ...props }, ref) => (
+        <div
+          ref={ref}
+          className={cn("flex flex-col space-y-1.5 p-6", className)}
+          {...props}
+        />
+      ))
+
+      CardHeader.displayName = "CardHeader"
+
+
+      const CardTitle = React.forwardRef<
+        HTMLParagraphElement,
+        React.HTMLAttributes<HTMLHeadingElement>
+      >(({ className, ...props }, ref) => (
+        <h3
+          ref={ref}
+          className={cn(
+            "text-2xl font-semibold leading-none tracking-tight",
+            className,
+          )}
+          {...props}
+        />
+      ))
+
+      CardTitle.displayName = "CardTitle"
+
+
+      const CardDescription = React.forwardRef<
+        HTMLParagraphElement,
+        React.HTMLAttributes<HTMLParagraphElement>
+      >(({ className, ...props }, ref) => (
+        <p
+          ref={ref}
+          className={cn("text-sm text-muted-foreground", className)}
+          {...props}
+        />
+      ))
+
+      CardDescription.displayName = "CardDescription"
+
+
+      const CardContent = React.forwardRef<
+        HTMLDivElement,
+        React.HTMLAttributes<HTMLDivElement>
+      >(({ className, ...props }, ref) => (
+        <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+      ))
+
+      CardContent.displayName = "CardContent"
+
+
+      const CardFooter = React.forwardRef<
+        HTMLDivElement,
+        React.HTMLAttributes<HTMLDivElement>
+      >(({ className, ...props }, ref) => (
+        <div
+          ref={ref}
+          className={cn("flex items-center p-6 pt-0", className)}
+          {...props}
+        />
+      ))
+
+      CardFooter.displayName = "CardFooter"
+
+
+      export { Card, CardHeader, CardFooter, CardTitle, CardDescription,
+      CardContent }
+
+    lib/utils.ts: |
+      import { clsx, type ClassValue } from 'clsx';
+      import { twMerge } from 'tailwind-merge';
+
+      export function cn(...inputs: ClassValue[]) {
+        return twMerge(clsx(inputs));
+      }
+    package.json: |+
+      {
+        "name": "uib-module",
+        "packageManager": "bun",
+        "private": true,
+        "version": "0.0.0",
+        "type": "module",
+        "scripts": {
+          "lint": "eslint ."
+        },
+        "dependencies": {
+          "@hookform/resolvers": "^5.2.1",
+          "@radix-ui/react-dialog": "^1.1.15",
+          "@radix-ui/react-dropdown-menu": "^2.1.16",
+          "@radix-ui/react-icons": "1.3.0",
+          "@radix-ui/react-label": "^2.1.7",
+          "@radix-ui/react-scroll-area": "^1.2.10",
+          "@radix-ui/react-select": "^2.2.6",
+          "@radix-ui/react-separator": "^1.1.7",
+          "@radix-ui/react-slot": "^1.2.3",
+          "@radix-ui/react-tabs": "^1.1.13",
+          "@uibakery/data": "0.0.7",
+          "canvas-confetti": "1.9.3",
+          "class-variance-authority": "0.7.0",
+          "clsx": "2.1.1",
+          "lucide-react": "0.446.0",
+          "react": "18.3.1",
+          "react-day-picker": "^9.7.0",
+          "react-dom": "18.3.1",
+          "react-hook-form": "^7.62.0",
+          "react-icons": "~5.5.0",
+          "tailwind-merge": "2.5.2",
+          "zod": "^4.1.5"
+        },
+        "devDependencies": {
+          "@eslint/js": "9.11.1",
+          "@types/node": "22.7.3",
+          "@types/react": "18.3.9",
+          "@types/react-dom": "18.3.0",
+          "autoprefixer": "10.4.20",
+          "eslint": "9.11.1",
+          "eslint-plugin-react-hooks": "5.1.0-rc.0",
+          "eslint-plugin-react-refresh": "0.4.12",
+          "globals": "15.9.0",
+          "postcss": "8.4.47",
+          "tailwindcss": "3.4.13",
+          "typescript": "5.5.3",
+          "typescript-eslint": "8.7.0"
+        }
+      }
+
+    task.md: >
+      # Student Management System for Higher Education
+
+
+      ## Database Schema Tasks
+
+      - [ ] Create students table with personal info, enrollment details
+
+      - [ ] Create courses table with course details, credits, prerequisites
+
+      - [ ] Create year_levels table (Freshman, Sophomore, Junior, Senior,
+      Graduate)
+
+      - [ ] Create workers table (Staff, Faculty, Admin with roles and
+      departments)
+
+      - [ ] Create student_courses table (enrollment/grades relationship)
+
+      - [ ] Create course_prerequisites table (course dependencies)
+
+
+      ## Actions Tasks
+
+      - [ ] Create student CRUD actions (create, read, update, delete)
+
+      - [ ] Create course CRUD actions
+
+      - [ ] Create year level CRUD actions  
+
+      - [ ] Create worker CRUD actions
+
+      - [ ] Create student enrollment actions
+
+      - [ ] Create grade management actions
+
+
+      ## UI Components Tasks
+
+      - [ ] Create main dashboard with navigation
+
+      - [ ] Create student management interface with forms and lists
+
+      - [ ] Create course management interface
+
+      - [ ] Create worker management interface
+
+      - [ ] Create enrollment/grade management interface
+
+      - [ ] Create search and filter functionality
+    migrations/1725075761_create_student_management_schema.sql: >
+      -- Migration to create comprehensive student management system schema
+
+
+      -- Year levels table
+
+      CREATE TABLE year_levels (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50) NOT NULL UNIQUE,
+        level_number INTEGER NOT NULL UNIQUE,
+        description TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+
+      -- Workers table (Faculty, Staff, Admin)
+
+      CREATE TABLE workers (
+        id SERIAL PRIMARY KEY,
+        employee_id VARCHAR(20) NOT NULL UNIQUE,
+        first_name VARCHAR(100) NOT NULL,
+        last_name VARCHAR(100) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        phone VARCHAR(20),
+        role VARCHAR(50) NOT NULL CHECK (role IN ('Faculty', 'Staff', 'Admin')),
+        department VARCHAR(100),
+        hire_date DATE NOT NULL,
+        status VARCHAR(20) DEFAULT 'Active' CHECK (status IN ('Active', 'Inactive', 'On Leave')),
+        salary DECIMAL(10, 2),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+
+      -- Courses table
+
+      CREATE TABLE courses (
+        id SERIAL PRIMARY KEY,
+        course_code VARCHAR(20) NOT NULL UNIQUE,
+        course_name VARCHAR(255) NOT NULL,
+        credits INTEGER NOT NULL CHECK (credits > 0),
+        description TEXT,
+        department VARCHAR(100) NOT NULL,
+        instructor_id INTEGER REFERENCES workers(id),
+        max_enrollment INTEGER DEFAULT 30,
+        status VARCHAR(20) DEFAULT 'Active' CHECK (status IN ('Active', 'Inactive', 'Archived')),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+
+      -- Students table
+
+      CREATE TABLE students (
+        id SERIAL PRIMARY KEY,
+        student_id VARCHAR(20) NOT NULL UNIQUE,
+        first_name VARCHAR(100) NOT NULL,
+        last_name VARCHAR(100) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        phone VARCHAR(20),
+        date_of_birth DATE NOT NULL,
+        address TEXT,
+        year_level_id INTEGER NOT NULL REFERENCES year_levels(id),
+        major VARCHAR(100),
+        enrollment_date DATE NOT NULL,
+        status VARCHAR(20) DEFAULT 'Active' CHECK (status IN ('Active', 'Inactive', 'Graduated', 'Dropped', 'Suspended')),
+        gpa DECIMAL(3, 2) DEFAULT 0.00 CHECK (gpa >= 0.00 AND gpa <= 4.00),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+
+      -- Course prerequisites table
+
+      CREATE TABLE course_prerequisites (
+        id SERIAL PRIMARY KEY,
+        course_id INTEGER NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+        prerequisite_id INTEGER NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(course_id, prerequisite_id)
+      );
+
+
+      -- Student enrollments table
+
+      CREATE TABLE student_enrollments (
+        id SERIAL PRIMARY KEY,
+        student_id INTEGER NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+        course_id INTEGER NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+        semester VARCHAR(20) NOT NULL,
+        academic_year INTEGER NOT NULL,
+        enrollment_date DATE DEFAULT CURRENT_DATE,
+        grade VARCHAR(2) CHECK (grade IN ('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'F', 'I', 'W')),
+        status VARCHAR(20) DEFAULT 'Enrolled' CHECK (status IN ('Enrolled', 'Completed', 'Dropped', 'Withdrawn')),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(student_id, course_id, semester, academic_year)
+      );
+
+
+      -- Create indexes for performance
+
+      CREATE INDEX idx_students_year_level ON students(year_level_id);
+
+      CREATE INDEX idx_students_status ON students(status);
+
+      CREATE INDEX idx_students_major ON students(major);
+
+      CREATE INDEX idx_courses_department ON courses(department);
+
+      CREATE INDEX idx_courses_instructor ON courses(instructor_id);
+
+      CREATE INDEX idx_worker_role ON workers(role);
+
+      CREATE INDEX idx_worker_department ON workers(department);
+
+      CREATE INDEX idx_enrollments_student ON student_enrollments(student_id);
+
+      CREATE INDEX idx_enrollments_course ON student_enrollments(course_id);
+
+      CREATE INDEX idx_enrollments_semester ON student_enrollments(semester,
+      academic_year);
+
+
+      -- Insert default year levels
+
+      INSERT INTO year_levels (name, level_number, description) VALUES
+
+      ('Freshman', 1, 'First year undergraduate students'),
+
+      ('Sophomore', 2, 'Second year undergraduate students'),
+
+      ('Junior', 3, 'Third year undergraduate students'),
+
+      ('Senior', 4, 'Fourth year undergraduate students'),
+
+      ('Graduate', 5, 'Graduate level students (Masters/PhD)');
+    components/ui/input.tsx: >+
+      import * as React from "react"
+
+
+      import { cn } from "@/lib/utils"
+
+
+      const Input = React.forwardRef<HTMLInputElement,
+      React.ComponentProps<"input">>(
+        ({ className, type, ...props }, ref) => {
+          return (
+            <input
+              type={type}
+              className={cn(
+                "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+                className
+              )}
+              ref={ref}
+              {...props}
+            />
+          )
+        }
+      )
+
+      Input.displayName = "Input"
+
+
+      export { Input }
+
+    components/ui/label.tsx: |+
+      import * as React from "react"
+      import * as LabelPrimitive from "@radix-ui/react-label"
+      import { cva, type VariantProps } from "class-variance-authority"
+
+      import { cn } from "@/lib/utils"
+
+      const labelVariants = cva(
+        "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      )
+
+      const Label = React.forwardRef<
+        React.ElementRef<typeof LabelPrimitive.Root>,
+        React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
+          VariantProps<typeof labelVariants>
+      >(({ className, ...props }, ref) => (
+        <LabelPrimitive.Root
+          ref={ref}
+          className={cn(labelVariants(), className)}
+          {...props}
+        />
+      ))
+      Label.displayName = LabelPrimitive.Root.displayName
+
+      export { Label }
+
+    components/ui/select.tsx: >+
+      "use client"
+
+
+      import * as React from "react"
+
+      import * as SelectPrimitive from "@radix-ui/react-select"
+
+      import { cn } from "@/lib/utils"
+
+      import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from
+      "@radix-ui/react-icons"
+
+
+      const Select = SelectPrimitive.Root
+
+
+      const SelectGroup = SelectPrimitive.Group
+
+
+      const SelectValue = SelectPrimitive.Value
+
+
+      const SelectTrigger = React.forwardRef<
+        React.ElementRef<typeof SelectPrimitive.Trigger>,
+        React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
+      >(({ className, children, ...props }, ref) => (
+        <SelectPrimitive.Trigger
+          ref={ref}
+          className={cn(
+            "flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background data-[placeholder]:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+            className
+          )}
+          {...props}
+        >
+          {children}
+          <SelectPrimitive.Icon asChild>
+            <ChevronDownIcon className="h-4 w-4 opacity-50" />
+          </SelectPrimitive.Icon>
+        </SelectPrimitive.Trigger>
+      ))
+
+      SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
+
+
+      const SelectScrollUpButton = React.forwardRef<
+        React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
+        React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
+      >(({ className, ...props }, ref) => (
+        <SelectPrimitive.ScrollUpButton
+          ref={ref}
+          className={cn(
+            "flex cursor-default items-center justify-center py-1",
+            className
+          )}
+          {...props}
+        >
+          <ChevronUpIcon className="h-4 w-4" />
+        </SelectPrimitive.ScrollUpButton>
+      ))
+
+      SelectScrollUpButton.displayName =
+      SelectPrimitive.ScrollUpButton.displayName
+
+
+      const SelectScrollDownButton = React.forwardRef<
+        React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
+        React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
+      >(({ className, ...props }, ref) => (
+        <SelectPrimitive.ScrollDownButton
+          ref={ref}
+          className={cn(
+            "flex cursor-default items-center justify-center py-1",
+            className
+          )}
+          {...props}
+        >
+          <ChevronDownIcon className="h-4 w-4" />
+        </SelectPrimitive.ScrollDownButton>
+      ))
+
+      SelectScrollDownButton.displayName =
+        SelectPrimitive.ScrollDownButton.displayName
+
+      const SelectContent = React.forwardRef<
+        React.ElementRef<typeof SelectPrimitive.Content>,
+        React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+      >(({ className, children, position = "popper", ...props }, ref) => (
+        <SelectPrimitive.Portal>
+          <SelectPrimitive.Content
+            ref={ref}
+            className={cn(
+              "relative z-50 max-h-[--radix-select-content-available-height] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-select-content-transform-origin]",
+              position === "popper" &&
+                "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+              className
+            )}
+            position={position}
+            {...props}
+          >
+            <SelectScrollUpButton />
+            <SelectPrimitive.Viewport
+              className={cn(
+                "p-1",
+                position === "popper" &&
+                  "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+              )}
+            >
+              {children}
+            </SelectPrimitive.Viewport>
+            <SelectScrollDownButton />
+          </SelectPrimitive.Content>
+        </SelectPrimitive.Portal>
+      ))
+
+      SelectContent.displayName = SelectPrimitive.Content.displayName
+
+
+      const SelectLabel = React.forwardRef<
+        React.ElementRef<typeof SelectPrimitive.Label>,
+        React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+      >(({ className, ...props }, ref) => (
+        <SelectPrimitive.Label
+          ref={ref}
+          className={cn("px-2 py-1.5 text-sm font-semibold", className)}
+          {...props}
+        />
+      ))
+
+      SelectLabel.displayName = SelectPrimitive.Label.displayName
+
+
+      const SelectItem = React.forwardRef<
+        React.ElementRef<typeof SelectPrimitive.Item>,
+        React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
+      >(({ className, children, ...props }, ref) => (
+        <SelectPrimitive.Item
+          ref={ref}
+          className={cn(
+            "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+            className
+          )}
+          {...props}
+        >
+          <span className="absolute right-2 flex h-3.5 w-3.5 items-center justify-center">
+            <SelectPrimitive.ItemIndicator>
+              <CheckIcon className="h-4 w-4" />
+            </SelectPrimitive.ItemIndicator>
+          </span>
+          <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+        </SelectPrimitive.Item>
+      ))
+
+      SelectItem.displayName = SelectPrimitive.Item.displayName
+
+
+      const SelectSeparator = React.forwardRef<
+        React.ElementRef<typeof SelectPrimitive.Separator>,
+        React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+      >(({ className, ...props }, ref) => (
+        <SelectPrimitive.Separator
+          ref={ref}
+          className={cn("-mx-1 my-1 h-px bg-muted", className)}
+          {...props}
+        />
+      ))
+
+      SelectSeparator.displayName = SelectPrimitive.Separator.displayName
+
+
+      export {
+        Select,
+        SelectGroup,
+        SelectValue,
+        SelectTrigger,
+        SelectContent,
+        SelectLabel,
+        SelectItem,
+        SelectSeparator,
+        SelectScrollUpButton,
+        SelectScrollDownButton,
+      }
+
+    components/ui/textarea.tsx: |+
+      import * as React from "react"
+
+      import { cn } from "@/lib/utils"
+
+      const Textarea = React.forwardRef<
+        HTMLTextAreaElement,
+        React.ComponentProps<"textarea">
+      >(({ className, ...props }, ref) => {
+        return (
+          <textarea
+            className={cn(
+              "flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+              className
+            )}
+            ref={ref}
+            {...props}
+          />
+        )
+      })
+      Textarea.displayName = "Textarea"
+
+      export { Textarea }
+
+    components/ui/table.tsx: |+
+      import * as React from "react"
+
+      import { cn } from "@/lib/utils"
+
+      const Table = React.forwardRef<
+        HTMLTableElement,
+        React.HTMLAttributes<HTMLTableElement>
+      >(({ className, ...props }, ref) => (
+        <div className="relative w-full overflow-auto">
+          <table
+            ref={ref}
+            className={cn("w-full caption-bottom text-sm", className)}
+            {...props}
+          />
+        </div>
+      ))
+      Table.displayName = "Table"
+
+      const TableHeader = React.forwardRef<
+        HTMLTableSectionElement,
+        React.HTMLAttributes<HTMLTableSectionElement>
+      >(({ className, ...props }, ref) => (
+        <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+      ))
+      TableHeader.displayName = "TableHeader"
+
+      const TableBody = React.forwardRef<
+        HTMLTableSectionElement,
+        React.HTMLAttributes<HTMLTableSectionElement>
+      >(({ className, ...props }, ref) => (
+        <tbody
+          ref={ref}
+          className={cn("[&_tr:last-child]:border-0", className)}
+          {...props}
+        />
+      ))
+      TableBody.displayName = "TableBody"
+
+      const TableFooter = React.forwardRef<
+        HTMLTableSectionElement,
+        React.HTMLAttributes<HTMLTableSectionElement>
+      >(({ className, ...props }, ref) => (
+        <tfoot
+          ref={ref}
+          className={cn(
+            "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+            className
+          )}
+          {...props}
+        />
+      ))
+      TableFooter.displayName = "TableFooter"
+
+      const TableRow = React.forwardRef<
+        HTMLTableRowElement,
+        React.HTMLAttributes<HTMLTableRowElement>
+      >(({ className, ...props }, ref) => (
+        <tr
+          ref={ref}
+          className={cn(
+            "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+            className
+          )}
+          {...props}
+        />
+      ))
+      TableRow.displayName = "TableRow"
+
+      const TableHead = React.forwardRef<
+        HTMLTableCellElement,
+        React.ThHTMLAttributes<HTMLTableCellElement>
+      >(({ className, ...props }, ref) => (
+        <th
+          ref={ref}
+          className={cn(
+            "h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+            className
+          )}
+          {...props}
+        />
+      ))
+      TableHead.displayName = "TableHead"
+
+      const TableCell = React.forwardRef<
+        HTMLTableCellElement,
+        React.TdHTMLAttributes<HTMLTableCellElement>
+      >(({ className, ...props }, ref) => (
+        <td
+          ref={ref}
+          className={cn(
+            "p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+            className
+          )}
+          {...props}
+        />
+      ))
+      TableCell.displayName = "TableCell"
+
+      const TableCaption = React.forwardRef<
+        HTMLTableCaptionElement,
+        React.HTMLAttributes<HTMLTableCaptionElement>
+      >(({ className, ...props }, ref) => (
+        <caption
+          ref={ref}
+          className={cn("mt-4 text-sm text-muted-foreground", className)}
+          {...props}
+        />
+      ))
+      TableCaption.displayName = "TableCaption"
+
+      export {
+        Table,
+        TableHeader,
+        TableBody,
+        TableFooter,
+        TableHead,
+        TableRow,
+        TableCell,
+        TableCaption,
+      }
+
+    components/ui/dialog.tsx: |+
+      import * as React from "react"
+      import * as DialogPrimitive from "@radix-ui/react-dialog"
+      import { cn } from "@/lib/utils"
+      import { Cross2Icon } from "@radix-ui/react-icons"
+
+      const Dialog = DialogPrimitive.Root
+
+      const DialogTrigger = DialogPrimitive.Trigger
+
+      const DialogPortal = DialogPrimitive.Portal
+
+      const DialogClose = DialogPrimitive.Close
+
+      const DialogOverlay = React.forwardRef<
+        React.ElementRef<typeof DialogPrimitive.Overlay>,
+        React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+      >(({ className, ...props }, ref) => (
+        <DialogPrimitive.Overlay
+          ref={ref}
+          className={cn(
+            "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+            className
+          )}
+          {...props}
+        />
+      ))
+      DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
+
+      const DialogContent = React.forwardRef<
+        React.ElementRef<typeof DialogPrimitive.Content>,
+        React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+      >(({ className, children, ...props }, ref) => (
+        <DialogPortal>
+          <DialogOverlay />
+          <DialogPrimitive.Content
+            ref={ref}
+            className={cn(
+              "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+              className
+            )}
+            {...props}
+          >
+            {children}
+            <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+              <Cross2Icon className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+          </DialogPrimitive.Content>
+        </DialogPortal>
+      ))
+      DialogContent.displayName = DialogPrimitive.Content.displayName
+
+      const DialogHeader = ({
+        className,
+        ...props
+      }: React.HTMLAttributes<HTMLDivElement>) => (
+        <div
+          className={cn(
+            "flex flex-col space-y-1.5 text-center sm:text-left",
+            className
+          )}
+          {...props}
+        />
+      )
+      DialogHeader.displayName = "DialogHeader"
+
+      const DialogFooter = ({
+        className,
+        ...props
+      }: React.HTMLAttributes<HTMLDivElement>) => (
+        <div
+          className={cn(
+            "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+            className
+          )}
+          {...props}
+        />
+      )
+      DialogFooter.displayName = "DialogFooter"
+
+      const DialogTitle = React.forwardRef<
+        React.ElementRef<typeof DialogPrimitive.Title>,
+        React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+      >(({ className, ...props }, ref) => (
+        <DialogPrimitive.Title
+          ref={ref}
+          className={cn(
+            "text-lg font-semibold leading-none tracking-tight",
+            className
+          )}
+          {...props}
+        />
+      ))
+      DialogTitle.displayName = DialogPrimitive.Title.displayName
+
+      const DialogDescription = React.forwardRef<
+        React.ElementRef<typeof DialogPrimitive.Description>,
+        React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+      >(({ className, ...props }, ref) => (
+        <DialogPrimitive.Description
+          ref={ref}
+          className={cn("text-sm text-muted-foreground", className)}
+          {...props}
+        />
+      ))
+      DialogDescription.displayName = DialogPrimitive.Description.displayName
+
+      export {
+        Dialog,
+        DialogPortal,
+        DialogOverlay,
+        DialogTrigger,
+        DialogClose,
+        DialogContent,
+        DialogHeader,
+        DialogFooter,
+        DialogTitle,
+        DialogDescription,
+      }
+
+    components/ui/tabs.tsx: |+
+      "use client"
+
+      import * as React from "react"
+      import * as TabsPrimitive from "@radix-ui/react-tabs"
+
+      import { cn } from "@/lib/utils"
+
+      const Tabs = TabsPrimitive.Root
+
+      const TabsList = React.forwardRef<
+        React.ElementRef<typeof TabsPrimitive.List>,
+        React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
+      >(({ className, ...props }, ref) => (
+        <TabsPrimitive.List
+          ref={ref}
+          className={cn(
+            "inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground",
+            className
+          )}
+          {...props}
+        />
+      ))
+      TabsList.displayName = TabsPrimitive.List.displayName
+
+      const TabsTrigger = React.forwardRef<
+        React.ElementRef<typeof TabsPrimitive.Trigger>,
+        React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
+      >(({ className, ...props }, ref) => (
+        <TabsPrimitive.Trigger
+          ref={ref}
+          className={cn(
+            "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow",
+            className
+          )}
+          {...props}
+        />
+      ))
+      TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+
+      const TabsContent = React.forwardRef<
+        React.ElementRef<typeof TabsPrimitive.Content>,
+        React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+      >(({ className, ...props }, ref) => (
+        <TabsPrimitive.Content
+          ref={ref}
+          className={cn(
+            "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            className
+          )}
+          {...props}
+        />
+      ))
+      TabsContent.displayName = TabsPrimitive.Content.displayName
+
+      export { Tabs, TabsList, TabsTrigger, TabsContent }
+
+    components/ui/badge.tsx: |+
+      import * as React from "react"
+      import { cva, type VariantProps } from "class-variance-authority"
+
+      import { cn } from "@/lib/utils"
+
+      const badgeVariants = cva(
+        "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+        {
+          variants: {
+            variant: {
+              default:
+                "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+              secondary:
+                "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+              destructive:
+                "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+              outline: "text-foreground",
+            },
+          },
+          defaultVariants: {
+            variant: "default",
+          },
+        }
+      )
+
+      export interface BadgeProps
+        extends React.HTMLAttributes<HTMLDivElement>,
+          VariantProps<typeof badgeVariants> {}
+
+      function Badge({ className, variant, ...props }: BadgeProps) {
+        return (
+          <div className={cn(badgeVariants({ variant }), className)} {...props} />
+        )
+      }
+
+      export { Badge, badgeVariants }
+
+    components/ui/separator.tsx: |+
+      import * as React from "react"
+      import * as SeparatorPrimitive from "@radix-ui/react-separator"
+
+      import { cn } from "@/lib/utils"
+
+      const Separator = React.forwardRef<
+        React.ElementRef<typeof SeparatorPrimitive.Root>,
+        React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root>
+      >(
+        (
+          { className, orientation = "horizontal", decorative = true, ...props },
+          ref
+        ) => (
+          <SeparatorPrimitive.Root
+            ref={ref}
+            decorative={decorative}
+            orientation={orientation}
+            className={cn(
+              "shrink-0 bg-border",
+              orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
+              className
+            )}
+            {...props}
+          />
+        )
+      )
+      Separator.displayName = SeparatorPrimitive.Root.displayName
+
+      export { Separator }
+
+    components/ui/scroll-area.tsx: >+
+      "use client"
+
+
+      import * as React from "react"
+
+      import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
+
+
+      import { cn } from "@/lib/utils"
+
+
+      const ScrollArea = React.forwardRef<
+        React.ElementRef<typeof ScrollAreaPrimitive.Root>,
+        React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>
+      >(({ className, children, ...props }, ref) => (
+        <ScrollAreaPrimitive.Root
+          ref={ref}
+          className={cn("relative overflow-hidden", className)}
+          {...props}
+        >
+          <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">
+            {children}
+          </ScrollAreaPrimitive.Viewport>
+          <ScrollBar />
+          <ScrollAreaPrimitive.Corner />
+        </ScrollAreaPrimitive.Root>
+      ))
+
+      ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName
+
+
+      const ScrollBar = React.forwardRef<
+        React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+        React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>
+      >(({ className, orientation = "vertical", ...props }, ref) => (
+        <ScrollAreaPrimitive.ScrollAreaScrollbar
+          ref={ref}
+          orientation={orientation}
+          className={cn(
+            "flex touch-none select-none transition-colors",
+            orientation === "vertical" &&
+              "h-full w-2.5 border-l border-l-transparent p-[1px]",
+            orientation === "horizontal" &&
+              "h-2.5 flex-col border-t border-t-transparent p-[1px]",
+            className
+          )}
+          {...props}
+        >
+          <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-border" />
+        </ScrollAreaPrimitive.ScrollAreaScrollbar>
+      ))
+
+      ScrollBar.displayName =
+      ScrollAreaPrimitive.ScrollAreaScrollbar.displayName
+
+
+      export { ScrollArea, ScrollBar }
+
+    components/ui/dropdown-menu.tsx: >+
+      import * as React from "react"
+
+      import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+
+      import { cn } from "@/lib/utils"
+
+      import { CheckIcon, ChevronRightIcon, DotFilledIcon } from
+      "@radix-ui/react-icons"
+
+
+      const DropdownMenu = DropdownMenuPrimitive.Root
+
+
+      const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+
+
+      const DropdownMenuGroup = DropdownMenuPrimitive.Group
+
+
+      const DropdownMenuPortal = DropdownMenuPrimitive.Portal
+
+
+      const DropdownMenuSub = DropdownMenuPrimitive.Sub
+
+
+      const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
+
+
+      const DropdownMenuSubTrigger = React.forwardRef<
+        React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
+        React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
+          inset?: boolean
+        }
+      >(({ className, inset, children, ...props }, ref) => (
+        <DropdownMenuPrimitive.SubTrigger
+          ref={ref}
+          className={cn(
+            "flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+            inset && "pl-8",
+            className
+          )}
+          {...props}
+        >
+          {children}
+          <ChevronRightIcon className="ml-auto" />
+        </DropdownMenuPrimitive.SubTrigger>
+      ))
+
+      DropdownMenuSubTrigger.displayName =
+        DropdownMenuPrimitive.SubTrigger.displayName
+
+      const DropdownMenuSubContent = React.forwardRef<
+        React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
+        React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
+      >(({ className, ...props }, ref) => (
+        <DropdownMenuPrimitive.SubContent
+          ref={ref}
+          className={cn(
+            "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-dropdown-menu-content-transform-origin]",
+            className
+          )}
+          {...props}
+        />
+      ))
+
+      DropdownMenuSubContent.displayName =
+        DropdownMenuPrimitive.SubContent.displayName
+
+      const DropdownMenuContent = React.forwardRef<
+        React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+        React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
+      >(({ className, sideOffset = 4, ...props }, ref) => (
+        <DropdownMenuPrimitive.Portal>
+          <DropdownMenuPrimitive.Content
+            ref={ref}
+            sideOffset={sideOffset}
+            className={cn(
+              "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+              "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-dropdown-menu-content-transform-origin]",
+              className
+            )}
+            {...props}
+          />
+        </DropdownMenuPrimitive.Portal>
+      ))
+
+      DropdownMenuContent.displayName =
+      DropdownMenuPrimitive.Content.displayName
+
+
+      const DropdownMenuItem = React.forwardRef<
+        React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+        React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+          inset?: boolean
+        }
+      >(({ className, inset, ...props }, ref) => (
+        <DropdownMenuPrimitive.Item
+          ref={ref}
+          className={cn(
+            "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0",
+            inset && "pl-8",
+            className
+          )}
+          {...props}
+        />
+      ))
+
+      DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName
+
+
+      const DropdownMenuCheckboxItem = React.forwardRef<
+        React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+        React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
+      >(({ className, children, checked, ...props }, ref) => (
+        <DropdownMenuPrimitive.CheckboxItem
+          ref={ref}
+          className={cn(
+            "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+            className
+          )}
+          checked={checked}
+          {...props}
+        >
+          <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+            <DropdownMenuPrimitive.ItemIndicator>
+              <CheckIcon className="h-4 w-4" />
+            </DropdownMenuPrimitive.ItemIndicator>
+          </span>
+          {children}
+        </DropdownMenuPrimitive.CheckboxItem>
+      ))
+
+      DropdownMenuCheckboxItem.displayName =
+        DropdownMenuPrimitive.CheckboxItem.displayName
+
+      const DropdownMenuRadioItem = React.forwardRef<
+        React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
+        React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem>
+      >(({ className, children, ...props }, ref) => (
+        <DropdownMenuPrimitive.RadioItem
+          ref={ref}
+          className={cn(
+            "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+            className
+          )}
+          {...props}
+        >
+          <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+            <DropdownMenuPrimitive.ItemIndicator>
+              <DotFilledIcon className="h-2 w-2 fill-current" />
+            </DropdownMenuPrimitive.ItemIndicator>
+          </span>
+          {children}
+        </DropdownMenuPrimitive.RadioItem>
+      ))
+
+      DropdownMenuRadioItem.displayName =
+      DropdownMenuPrimitive.RadioItem.displayName
+
+
+      const DropdownMenuLabel = React.forwardRef<
+        React.ElementRef<typeof DropdownMenuPrimitive.Label>,
+        React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
+          inset?: boolean
+        }
+      >(({ className, inset, ...props }, ref) => (
+        <DropdownMenuPrimitive.Label
+          ref={ref}
+          className={cn(
+            "px-2 py-1.5 text-sm font-semibold",
+            inset && "pl-8",
+            className
+          )}
+          {...props}
+        />
+      ))
+
+      DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
+
+
+      const DropdownMenuSeparator = React.forwardRef<
+        React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
+        React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+      >(({ className, ...props }, ref) => (
+        <DropdownMenuPrimitive.Separator
+          ref={ref}
+          className={cn("-mx-1 my-1 h-px bg-muted", className)}
+          {...props}
+        />
+      ))
+
+      DropdownMenuSeparator.displayName =
+      DropdownMenuPrimitive.Separator.displayName
+
+
+      const DropdownMenuShortcut = ({
+        className,
+        ...props
+      }: React.HTMLAttributes<HTMLSpanElement>) => {
+        return (
+          <span
+            className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
+            {...props}
+          />
+        )
+      }
+
+      DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
+
+
+      export {
+        DropdownMenu,
+        DropdownMenuTrigger,
+        DropdownMenuContent,
+        DropdownMenuItem,
+        DropdownMenuCheckboxItem,
+        DropdownMenuRadioItem,
+        DropdownMenuLabel,
+        DropdownMenuSeparator,
+        DropdownMenuShortcut,
+        DropdownMenuGroup,
+        DropdownMenuPortal,
+        DropdownMenuSub,
+        DropdownMenuSubContent,
+        DropdownMenuSubTrigger,
+        DropdownMenuRadioGroup,
+      }
+
+    components/ui/form.tsx: |+
+      import * as React from "react"
+      import * as LabelPrimitive from "@radix-ui/react-label"
+      import { Slot } from "@radix-ui/react-slot"
+      import {
+        Controller,
+        FormProvider,
+        useFormContext,
+        type ControllerProps,
+        type FieldPath,
+        type FieldValues,
+      } from "react-hook-form"
+
+      import { cn } from "@/lib/utils"
+      import { Label } from "@/components/ui/label"
+
+      const Form = FormProvider
+
+      type FormFieldContextValue<
+        TFieldValues extends FieldValues = FieldValues,
+        TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+      > = {
+        name: TName
+      }
+
+      const FormFieldContext = React.createContext<FormFieldContextValue>(
+        {} as FormFieldContextValue
+      )
+
+      const FormField = <
+        TFieldValues extends FieldValues = FieldValues,
+        TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+      >({
+        ...props
+      }: ControllerProps<TFieldValues, TName>) => {
+        return (
+          <FormFieldContext.Provider value={{ name: props.name }}>
+            <Controller {...props} />
+          </FormFieldContext.Provider>
+        )
+      }
+
+      const useFormField = () => {
+        const fieldContext = React.useContext(FormFieldContext)
+        const itemContext = React.useContext(FormItemContext)
+        const { getFieldState, formState } = useFormContext()
+
+        const fieldState = getFieldState(fieldContext.name, formState)
+
+        if (!fieldContext) {
+          throw new Error("useFormField should be used within <FormField>")
+        }
+
+        const { id } = itemContext
+
+        return {
+          id,
+          name: fieldContext.name,
+          formItemId: `${id}-form-item`,
+          formDescriptionId: `${id}-form-item-description`,
+          formMessageId: `${id}-form-item-message`,
+          ...fieldState,
+        }
+      }
+
+      type FormItemContextValue = {
+        id: string
+      }
+
+      const FormItemContext = React.createContext<FormItemContextValue>(
+        {} as FormItemContextValue
+      )
+
+      const FormItem = React.forwardRef<
+        HTMLDivElement,
+        React.HTMLAttributes<HTMLDivElement>
+      >(({ className, ...props }, ref) => {
+        const id = React.useId()
+
+        return (
+          <FormItemContext.Provider value={{ id }}>
+            <div ref={ref} className={cn("space-y-2", className)} {...props} />
+          </FormItemContext.Provider>
+        )
+      })
+      FormItem.displayName = "FormItem"
+
+      const FormLabel = React.forwardRef<
+        React.ElementRef<typeof LabelPrimitive.Root>,
+        React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
+      >(({ className, ...props }, ref) => {
+        const { error, formItemId } = useFormField()
+
+        return (
+          <Label
+            ref={ref}
+            className={cn(error && "text-destructive", className)}
+            htmlFor={formItemId}
+            {...props}
+          />
+        )
+      })
+      FormLabel.displayName = "FormLabel"
+
+      const FormControl = React.forwardRef<
+        React.ElementRef<typeof Slot>,
+        React.ComponentPropsWithoutRef<typeof Slot>
+      >(({ ...props }, ref) => {
+        const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
+
+        return (
+          <Slot
+            ref={ref}
+            id={formItemId}
+            aria-describedby={
+              !error
+                ? `${formDescriptionId}`
+                : `${formDescriptionId} ${formMessageId}`
+            }
+            aria-invalid={!!error}
+            {...props}
+          />
+        )
+      })
+      FormControl.displayName = "FormControl"
+
+      const FormDescription = React.forwardRef<
+        HTMLParagraphElement,
+        React.HTMLAttributes<HTMLParagraphElement>
+      >(({ className, ...props }, ref) => {
+        const { formDescriptionId } = useFormField()
+
+        return (
+          <p
+            ref={ref}
+            id={formDescriptionId}
+            className={cn("text-[0.8rem] text-muted-foreground", className)}
+            {...props}
+          />
+        )
+      })
+      FormDescription.displayName = "FormDescription"
+
+      const FormMessage = React.forwardRef<
+        HTMLParagraphElement,
+        React.HTMLAttributes<HTMLParagraphElement>
+      >(({ className, children, ...props }, ref) => {
+        const { error, formMessageId } = useFormField()
+        const body = error ? String(error?.message ?? "") : children
+
+        if (!body) {
+          return null
+        }
+
+        return (
+          <p
+            ref={ref}
+            id={formMessageId}
+            className={cn("text-[0.8rem] font-medium text-destructive", className)}
+            {...props}
+          >
+            {body}
+          </p>
+        )
+      })
+      FormMessage.displayName = "FormMessage"
+
+      export {
+        useFormField,
+        Form,
+        FormItem,
+        FormLabel,
+        FormControl,
+        FormDescription,
+        FormMessage,
+        FormField,
+      }
+
+    actions/loadStudents.ts: |
+      import { action } from '@uibakery/data';
+
+      function loadStudents() {
+        return action('loadStudents', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            SELECT 
+              s.*,
+              yl.name as year_level_name,
+              yl.level_number
+            FROM students s
+            JOIN year_levels yl ON s.year_level_id = yl.id
+            ORDER BY s.last_name, s.first_name;
+          `,
+        });
+      }
+
+      export default loadStudents;
+    actions/createStudent.ts: |
+      import { action } from '@uibakery/data';
+
+      function createStudent() {
+        return action('createStudent', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            INSERT INTO students 
+            (student_id, first_name, last_name, email, phone, date_of_birth, address, year_level_id, major, enrollment_date, status)
+            VALUES 
+            ({{params.studentId}}, {{params.firstName}}, {{params.lastName}}, {{params.email}}, {{params.phone}}, 
+             {{params.dateOfBirth}}, {{params.address}}, {{params.yearLevelId}}, {{params.major}}, {{params.enrollmentDate}}, {{params.status}});
+          `,
+        });
+      }
+
+      export default createStudent;
+    actions/updateStudent.ts: |
+      import { action } from '@uibakery/data';
+
+      function updateStudent() {
+        return action('updateStudent', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            UPDATE students 
+            SET first_name = {{params.firstName}}, 
+                last_name = {{params.lastName}},
+                email = {{params.email}},
+                phone = {{params.phone}},
+                date_of_birth = {{params.dateOfBirth}},
+                address = {{params.address}},
+                year_level_id = {{params.yearLevelId}},
+                major = {{params.major}},
+                status = {{params.status}},
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = {{params.id}};
+          `,
+        });
+      }
+
+      export default updateStudent;
+    actions/deleteStudent.ts: |
+      import { action } from '@uibakery/data';
+
+      function deleteStudent() {
+        return action('deleteStudent', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            DELETE FROM students WHERE id = {{params.id}};
+          `,
+        });
+      }
+
+      export default deleteStudent;
+    actions/loadCourses.ts: |
+      import { action } from '@uibakery/data';
+
+      function loadCourses() {
+        return action('loadCourses', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            SELECT 
+              c.*,
+              w.first_name || ' ' || w.last_name as instructor_name,
+              (SELECT COUNT(*) FROM student_enrollments se WHERE se.course_id = c.id AND se.status = 'Enrolled') as enrolled_count
+            FROM courses c
+            LEFT JOIN workers w ON c.instructor_id = w.id
+            ORDER BY c.course_code;
+          `,
+        });
+      }
+
+      export default loadCourses;
+    actions/createCourse.ts: |
+      import { action } from '@uibakery/data';
+
+      function createCourse() {
+        return action('createCourse', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            INSERT INTO courses 
+            (course_code, course_name, credits, description, department, instructor_id, max_enrollment, status)
+            VALUES 
+            ({{params.courseCode}}, {{params.courseName}}, {{params.credits}}, {{params.description}}, 
+             {{params.department}}, {{params.instructorId}}, {{params.maxEnrollment}}, {{params.status}});
+          `,
+        });
+      }
+
+      export default createCourse;
+    actions/loadWorkers.ts: |
+      import { action } from '@uibakery/data';
+
+      function loadWorkers() {
+        return action('loadWorkers', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            SELECT *
+            FROM workers
+            ORDER BY last_name, first_name;
+          `,
+        });
+      }
+
+      export default loadWorkers;
+    actions/createWorker.ts: |
+      import { action } from '@uibakery/data';
+
+      function createWorker() {
+        return action('createWorker', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            INSERT INTO workers 
+            (employee_id, first_name, last_name, email, phone, role, department, hire_date, status, salary)
+            VALUES 
+            ({{params.employeeId}}, {{params.firstName}}, {{params.lastName}}, {{params.email}}, {{params.phone}},
+             {{params.role}}, {{params.department}}, {{params.hireDate}}, {{params.status}}, {{params.salary}});
+          `,
+        });
+      }
+
+      export default createWorker;
+    actions/loadYearLevels.ts: |
+      import { action } from '@uibakery/data';
+
+      function loadYearLevels() {
+        return action('loadYearLevels', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            SELECT *
+            FROM year_levels
+            ORDER BY level_number;
+          `,
+        });
+      }
+
+      export default loadYearLevels;
+    actions/loadEnrollments.ts: |
+      import { action } from '@uibakery/data';
+
+      function loadEnrollments() {
+        return action('loadEnrollments', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            SELECT 
+              se.*,
+              s.student_id,
+              s.first_name || ' ' || s.last_name as student_name,
+              c.course_code,
+              c.course_name,
+              c.credits
+            FROM student_enrollments se
+            JOIN students s ON se.student_id = s.id
+            JOIN courses c ON se.course_id = c.id
+            ORDER BY se.academic_year DESC, se.semester, c.course_code;
+          `,
+        });
+      }
+
+      export default loadEnrollments;
+    actions/createEnrollment.ts: |
+      import { action } from '@uibakery/data';
+
+      function createEnrollment() {
+        return action('createEnrollment', 'SQL', {
+          databaseName: '[Sample] Custom App_7ScouI9NPo',
+          query: `
+            INSERT INTO student_enrollments 
+            (student_id, course_id, semester, academic_year, status)
+            VALUES 
+            ({{params.studentId}}, {{params.courseId}}, {{params.semester}}, {{params.academicYear}}, {{params.status}});
+          `,
+        });
+      }
+
+      export default createEnrollment;
+    components/StudentsTab.tsx: >
+      import { useState } from 'react';
+
+      import { useLoadAction, useMutateAction } from '@uibakery/data';
+
+      import { Card, CardContent, CardHeader, CardTitle } from
+      '@/components/ui/card';
+
+      import { Button } from '@/components/ui/button';
+
+      import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger }
+      from '@/components/ui/dialog';
+
+      import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow }
+      from '@/components/ui/table';
+
+      import { Badge } from '@/components/ui/badge';
+
+      import { Plus, Edit, Trash2 } from 'lucide-react';
+
+      import { StudentForm } from '@/components/StudentForm';
+
+      import loadStudentsAction from '@/actions/loadStudents';
+
+      import deleteStudentAction from '@/actions/deleteStudent';
+
+
+      type Student = {
+        id: number;
+        student_id: string;
+        first_name: string;
+        last_name: string;
+        email: string;
+        phone: string;
+        major: string;
+        year_level_name: string;
+        status: string;
+        gpa: number;
+        enrollment_date: string;
+      };
+
+
+      export function StudentsTab() {
+        const [students, loading, error, refresh] = useLoadAction(loadStudentsAction, []);
+        const [deleteStudent] = useMutateAction(deleteStudentAction);
+        const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+        const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+        const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+        const handleDelete = async (studentId: number) => {
+          if (confirm('Are you sure you want to delete this student?')) {
+            await deleteStudent({ id: studentId });
+            refresh();
+          }
+        };
+
+        const getStatusColor = (status: string) => {
+          switch (status) {
+            case 'Active': return 'bg-green-100 text-green-800';
+            case 'Inactive': return 'bg-gray-100 text-gray-800';
+            case 'Graduated': return 'bg-blue-100 text-blue-800';
+            case 'Dropped': return 'bg-red-100 text-red-800';
+            case 'Suspended': return 'bg-yellow-100 text-yellow-800';
+            default: return 'bg-gray-100 text-gray-800';
+          }
+        };
+
+        if (loading) return <div className="text-center p-8">Loading students...</div>;
+        if (error) return <div className="text-center p-8 text-red-600">Error loading students</div>;
+
+        return (
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-2xl">Students Management</CardTitle>
+              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Student
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Add New Student</DialogTitle>
+                  </DialogHeader>
+                  <StudentForm 
+                    onSuccess={() => {
+                      setIsCreateDialogOpen(false);
+                      refresh();
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Student ID</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Major</TableHead>
+                      <TableHead>Year Level</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>GPA</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {students.map((student: Student) => (
+                      <TableRow key={student.id}>
+                        <TableCell className="font-medium">{student.student_id}</TableCell>
+                        <TableCell>{`${student.first_name} ${student.last_name}`}</TableCell>
+                        <TableCell>{student.email}</TableCell>
+                        <TableCell>{student.major}</TableCell>
+                        <TableCell>{student.year_level_name}</TableCell>
+                        <TableCell>
+                          <Badge className={getStatusColor(student.status)}>
+                            {student.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{student.gpa?.toFixed(2) || 'N/A'}</TableCell>
+                        <TableCell>
+                          <div className="flex space-x-2">
+                            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setEditingStudent(student)}
+                                >
+                                  <Edit className="h-4 w-4" />
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                                <DialogHeader>
+                                  <DialogTitle>Edit Student</DialogTitle>
+                                </DialogHeader>
+                                {editingStudent && (
+                                  <StudentForm
+                                    student={editingStudent}
+                                    onSuccess={() => {
+                                      setIsEditDialogOpen(false);
+                                      setEditingStudent(null);
+                                      refresh();
+                                    }}
+                                  />
+                                )}
+                              </DialogContent>
+                            </Dialog>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDelete(student.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {students.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                          No students found. Add your first student to get started.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      }
+    components/StudentForm.tsx: >
+      import { useState } from 'react';
+
+      import { useForm } from 'react-hook-form';
+
+      import { zodResolver } from '@hookform/resolvers/zod';
+
+      import { z } from 'zod';
+
+      import { useLoadAction, useMutateAction } from '@uibakery/data';
+
+      import { Button } from '@/components/ui/button';
+
+      import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage }
+      from '@/components/ui/form';
+
+      import { Input } from '@/components/ui/input';
+
+      import { Textarea } from '@/components/ui/textarea';
+
+      import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue }
+      from '@/components/ui/select';
+
+      import createStudentAction from '@/actions/createStudent';
+
+      import updateStudentAction from '@/actions/updateStudent';
+
+      import loadYearLevelsAction from '@/actions/loadYearLevels';
+
+
+      const studentSchema = z.object({
+        studentId: z.string().min(1, 'Student ID is required'),
+        firstName: z.string().min(1, 'First name is required'),
+        lastName: z.string().min(1, 'Last name is required'),
+        email: z.string().email('Invalid email address'),
+        phone: z.string().optional(),
+        dateOfBirth: z.string().min(1, 'Date of birth is required'),
+        address: z.string().optional(),
+        yearLevelId: z.string().min(1, 'Year level is required'),
+        major: z.string().min(1, 'Major is required'),
+        status: z.string().min(1, 'Status is required'),
+      });
+
+
+      type StudentFormData = z.infer<typeof studentSchema>;
+
+
+      interface StudentFormProps {
+        student?: any;
+        onSuccess: () => void;
+      }
+
+
+      export function StudentForm({ student, onSuccess }: StudentFormProps) {
+        const [yearLevels] = useLoadAction(loadYearLevelsAction, []);
+        const [createStudent, isCreating] = useMutateAction(createStudentAction);
+        const [updateStudent, isUpdating] = useMutateAction(updateStudentAction);
+
+        const form = useForm<StudentFormData>({
+          resolver: zodResolver(studentSchema),
+          defaultValues: {
+            studentId: student?.student_id || '',
+            firstName: student?.first_name || '',
+            lastName: student?.last_name || '',
+            email: student?.email || '',
+            phone: student?.phone || '',
+            dateOfBirth: student?.date_of_birth?.split('T')[0] || '',
+            address: student?.address || '',
+            yearLevelId: student?.year_level_id?.toString() || '',
+            major: student?.major || '',
+            status: student?.status || 'Active',
+          },
+        });
+
+        const onSubmit = async (data: StudentFormData) => {
+          try {
+            const payload = {
+              ...data,
+              yearLevelId: parseInt(data.yearLevelId),
+              enrollmentDate: student ? undefined : new Date().toISOString().split('T')[0],
+            };
+
+            if (student) {
+              await updateStudent({ ...payload, id: student.id });
+            } else {
+              await createStudent(payload);
+            }
+            
+            onSuccess();
+          } catch (error) {
+            console.error('Error saving student:', error);
+          }
+        };
+
+        return (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="studentId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Student ID</FormLabel>
+                      <FormControl>
+                        <Input placeholder="STU001" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="Inactive">Inactive</SelectItem>
+                          <SelectItem value="Graduated">Graduated</SelectItem>
+                          <SelectItem value="Dropped">Dropped</SelectItem>
+                          <SelectItem value="Suspended">Suspended</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="john.doe@university.edu" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input placeholder="(555) 123-4567" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="dateOfBirth"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Date of Birth</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="yearLevelId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Year Level</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select year level" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {yearLevels.map((level: any) => (
+                            <SelectItem key={level.id} value={level.id.toString()}>
+                              {level.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="major"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Major</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Computer Science" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="123 Main Street, City, State, ZIP" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex justify-end space-x-2">
+                <Button type="submit" disabled={isCreating || isUpdating}>
+                  {student ? 'Update Student' : 'Create Student'}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        );
+      }
+    migrations/applied.txt: |
+      Applied migrations:
+      1725075761_create_student_management_schema at 2025-08-31T03:45:14.748Z
+    components/CoursesTab.tsx: >
+      import { useState } from 'react';
+
+      import { useLoadAction, useMutateAction } from '@uibakery/data';
+
+      import { Card, CardContent, CardHeader, CardTitle } from
+      '@/components/ui/card';
+
+      import { Button } from '@/components/ui/button';
+
+      import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger }
+      from '@/components/ui/dialog';
+
+      import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow }
+      from '@/components/ui/table';
+
+      import { Badge } from '@/components/ui/badge';
+
+      import { Plus, Edit, Trash2 } from 'lucide-react';
+
+      import { CourseForm } from '@/components/CourseForm';
+
+      import loadCoursesAction from '@/actions/loadCourses';
+
+
+      type Course = {
+        id: number;
+        course_code: string;
+        course_name: string;
+        credits: number;
+        department: string;
+        instructor_name: string;
+        max_enrollment: number;
+        enrolled_count: number;
+        status: string;
+      };
+
+
+      export function CoursesTab() {
+        const [courses, loading, error, refresh] = useLoadAction(loadCoursesAction, []);
+        const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+        const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+        const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+        const getStatusColor = (status: string) => {
+          switch (status) {
+            case 'Active': return 'bg-green-100 text-green-800';
+            case 'Inactive': return 'bg-gray-100 text-gray-800';
+            case 'Archived': return 'bg-red-100 text-red-800';
+            default: return 'bg-gray-100 text-gray-800';
+          }
+        };
+
+        if (loading) return <div className="text-center p-8">Loading courses...</div>;
+        if (error) return <div className="text-center p-8 text-red-600">Error loading courses</div>;
+
+        return (
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-2xl">Course Management</CardTitle>
+              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Course
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Add New Course</DialogTitle>
+                  </DialogHeader>
+                  <CourseForm 
+                    onSuccess={() => {
+                      setIsCreateDialogOpen(false);
+                      refresh();
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Course Code</TableHead>
+                      <TableHead>Course Name</TableHead>
+                      <TableHead>Credits</TableHead>
+                      <TableHead>Department</TableHead>
+                      <TableHead>Instructor</TableHead>
+                      <TableHead>Enrollment</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {courses.map((course: Course) => (
+                      <TableRow key={course.id}>
+                        <TableCell className="font-medium">{course.course_code}</TableCell>
+                        <TableCell>{course.course_name}</TableCell>
+                        <TableCell>{course.credits}</TableCell>
+                        <TableCell>{course.department}</TableCell>
+                        <TableCell>{course.instructor_name || 'Not assigned'}</TableCell>
+                        <TableCell>{course.enrolled_count || 0}/{course.max_enrollment}</TableCell>
+                        <TableCell>
+                          <Badge className={getStatusColor(course.status)}>
+                            {course.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex space-x-2">
+                            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setEditingCourse(course)}
+                                >
+                                  <Edit className="h-4 w-4" />
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                                <DialogHeader>
+                                  <DialogTitle>Edit Course</DialogTitle>
+                                </DialogHeader>
+                                {editingCourse && (
+                                  <CourseForm
+                                    course={editingCourse}
+                                    onSuccess={() => {
+                                      setIsEditDialogOpen(false);
+                                      setEditingCourse(null);
+                                      refresh();
+                                    }}
+                                  />
+                                )}
+                              </DialogContent>
+                            </Dialog>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {courses.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                          No courses found. Add your first course to get started.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      }
+    components/CourseForm.tsx: >
+      import { useForm } from 'react-hook-form';
+
+      import { zodResolver } from '@hookform/resolvers/zod';
+
+      import { z } from 'zod';
+
+      import { useLoadAction, useMutateAction } from '@uibakery/data';
+
+      import { Button } from '@/components/ui/button';
+
+      import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage }
+      from '@/components/ui/form';
+
+      import { Input } from '@/components/ui/input';
+
+      import { Textarea } from '@/components/ui/textarea';
+
+      import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue }
+      from '@/components/ui/select';
+
+      import createCourseAction from '@/actions/createCourse';
+
+      import loadWorkersAction from '@/actions/loadWorkers';
+
+
+      const courseSchema = z.object({
+        courseCode: z.string().min(1, 'Course code is required'),
+        courseName: z.string().min(1, 'Course name is required'),
+        credits: z.string().min(1, 'Credits is required'),
+        description: z.string().optional(),
+        department: z.string().min(1, 'Department is required'),
+        instructorId: z.string().optional(),
+        maxEnrollment: z.string().min(1, 'Max enrollment is required'),
+        status: z.string().min(1, 'Status is required'),
+      });
+
+
+      type CourseFormData = z.infer<typeof courseSchema>;
+
+
+      interface CourseFormProps {
+        course?: any;
+        onSuccess: () => void;
+      }
+
+
+      export function CourseForm({ course, onSuccess }: CourseFormProps) {
+        const [workers] = useLoadAction(loadWorkersAction, []);
+        const [createCourse, isCreating] = useMutateAction(createCourseAction);
+
+        const form = useForm<CourseFormData>({
+          resolver: zodResolver(courseSchema),
+          defaultValues: {
+            courseCode: course?.course_code || '',
+            courseName: course?.course_name || '',
+            credits: course?.credits?.toString() || '',
+            description: course?.description || '',
+            department: course?.department || '',
+            instructorId: course?.instructor_id?.toString() || '',
+            maxEnrollment: course?.max_enrollment?.toString() || '30',
+            status: course?.status || 'Active',
+          },
+        });
+
+        const onSubmit = async (data: CourseFormData) => {
+          try {
+            const payload = {
+              ...data,
+              credits: parseInt(data.credits),
+              maxEnrollment: parseInt(data.maxEnrollment),
+              instructorId: data.instructorId && data.instructorId !== "none" ? parseInt(data.instructorId) : null,
+            };
+
+            await createCourse(payload);
+            onSuccess();
+          } catch (error) {
+            console.error('Error saving course:', error);
+          }
+        };
+
+        const facultyWorkers = workers.filter((worker: any) => worker.role === 'Faculty');
+
+        return (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="courseCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Course Code</FormLabel>
+                      <FormControl>
+                        <Input placeholder="CS101" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="Inactive">Inactive</SelectItem>
+                          <SelectItem value="Archived">Archived</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="courseName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Course Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Introduction to Computer Science" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="credits"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Credits</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="3" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="maxEnrollment"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Max Enrollment</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="30" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="department"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Department</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Computer Science" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="instructorId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Instructor</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select instructor" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="none">No instructor assigned</SelectItem>
+                          {facultyWorkers.map((worker: any) => (
+                            <SelectItem key={worker.id} value={worker.id.toString()}>
+                              {worker.first_name} {worker.last_name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Course description..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex justify-end space-x-2">
+                <Button type="submit" disabled={isCreating}>
+                  {course ? 'Update Course' : 'Create Course'}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        );
+      }
+    components/WorkersTab.tsx: >
+      import { useState } from 'react';
+
+      import { useLoadAction, useMutateAction } from '@uibakery/data';
+
+      import { Card, CardContent, CardHeader, CardTitle } from
+      '@/components/ui/card';
+
+      import { Button } from '@/components/ui/button';
+
+      import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger }
+      from '@/components/ui/dialog';
+
+      import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow }
+      from '@/components/ui/table';
+
+      import { Badge } from '@/components/ui/badge';
+
+      import { Plus, Edit, Trash2 } from 'lucide-react';
+
+      import { WorkerForm } from '@/components/WorkerForm';
+
+      import loadWorkersAction from '@/actions/loadWorkers';
+
+
+      type Worker = {
+        id: number;
+        employee_id: string;
+        first_name: string;
+        last_name: string;
+        email: string;
+        role: string;
+        department: string;
+        status: string;
+        hire_date: string;
+        salary: number;
+      };
+
+
+      export function WorkersTab() {
+        const [workers, loading, error, refresh] = useLoadAction(loadWorkersAction, []);
+        const [editingWorker, setEditingWorker] = useState<Worker | null>(null);
+        const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+        const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+        const getRoleColor = (role: string) => {
+          switch (role) {
+            case 'Faculty': return 'bg-blue-100 text-blue-800';
+            case 'Staff': return 'bg-green-100 text-green-800';
+            case 'Admin': return 'bg-purple-100 text-purple-800';
+            default: return 'bg-gray-100 text-gray-800';
+          }
+        };
+
+        const getStatusColor = (status: string) => {
+          switch (status) {
+            case 'Active': return 'bg-green-100 text-green-800';
+            case 'Inactive': return 'bg-gray-100 text-gray-800';
+            case 'On Leave': return 'bg-yellow-100 text-yellow-800';
+            default: return 'bg-gray-100 text-gray-800';
+          }
+        };
+
+        if (loading) return <div className="text-center p-8">Loading workers...</div>;
+        if (error) return <div className="text-center p-8 text-red-600">Error loading workers</div>;
+
+        return (
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-2xl">Workers Management</CardTitle>
+              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Worker
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Add New Worker</DialogTitle>
+                  </DialogHeader>
+                  <WorkerForm 
+                    onSuccess={() => {
+                      setIsCreateDialogOpen(false);
+                      refresh();
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Employee ID</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Role</TableHead>
+                      <TableHead>Department</TableHead>
+                      <TableHead>Hire Date</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {workers.map((worker: Worker) => (
+                      <TableRow key={worker.id}>
+                        <TableCell className="font-medium">{worker.employee_id}</TableCell>
+                        <TableCell>{`${worker.first_name} ${worker.last_name}`}</TableCell>
+                        <TableCell>{worker.email}</TableCell>
+                        <TableCell>
+                          <Badge className={getRoleColor(worker.role)}>
+                            {worker.role}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{worker.department}</TableCell>
+                        <TableCell>{new Date(worker.hire_date).toLocaleDateString()}</TableCell>
+                        <TableCell>
+                          <Badge className={getStatusColor(worker.status)}>
+                            {worker.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex space-x-2">
+                            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setEditingWorker(worker)}
+                                >
+                                  <Edit className="h-4 w-4" />
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                                <DialogHeader>
+                                  <DialogTitle>Edit Worker</DialogTitle>
+                                </DialogHeader>
+                                {editingWorker && (
+                                  <WorkerForm
+                                    worker={editingWorker}
+                                    onSuccess={() => {
+                                      setIsEditDialogOpen(false);
+                                      setEditingWorker(null);
+                                      refresh();
+                                    }}
+                                  />
+                                )}
+                              </DialogContent>
+                            </Dialog>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {workers.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                          No workers found. Add your first worker to get started.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      }
+    components/WorkerForm.tsx: >
+      import { useForm } from 'react-hook-form';
+
+      import { zodResolver } from '@hookform/resolvers/zod';
+
+      import { z } from 'zod';
+
+      import { useMutateAction } from '@uibakery/data';
+
+      import { Button } from '@/components/ui/button';
+
+      import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage }
+      from '@/components/ui/form';
+
+      import { Input } from '@/components/ui/input';
+
+      import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue }
+      from '@/components/ui/select';
+
+      import createWorkerAction from '@/actions/createWorker';
+
+
+      const workerSchema = z.object({
+        employeeId: z.string().min(1, 'Employee ID is required'),
+        firstName: z.string().min(1, 'First name is required'),
+        lastName: z.string().min(1, 'Last name is required'),
+        email: z.string().email('Invalid email address'),
+        phone: z.string().optional(),
+        role: z.string().min(1, 'Role is required'),
+        department: z.string().min(1, 'Department is required'),
+        hireDate: z.string().min(1, 'Hire date is required'),
+        status: z.string().min(1, 'Status is required'),
+        salary: z.string().optional(),
+      });
+
+
+      type WorkerFormData = z.infer<typeof workerSchema>;
+
+
+      interface WorkerFormProps {
+        worker?: any;
+        onSuccess: () => void;
+      }
+
+
+      export function WorkerForm({ worker, onSuccess }: WorkerFormProps) {
+        const [createWorker, isCreating] = useMutateAction(createWorkerAction);
+
+        const form = useForm<WorkerFormData>({
+          resolver: zodResolver(workerSchema),
+          defaultValues: {
+            employeeId: worker?.employee_id || '',
+            firstName: worker?.first_name || '',
+            lastName: worker?.last_name || '',
+            email: worker?.email || '',
+            phone: worker?.phone || '',
+            role: worker?.role || '',
+            department: worker?.department || '',
+            hireDate: worker?.hire_date?.split('T')[0] || '',
+            status: worker?.status || 'Active',
+            salary: worker?.salary?.toString() || '',
+          },
+        });
+
+        const onSubmit = async (data: WorkerFormData) => {
+          try {
+            const payload = {
+              ...data,
+              salary: data.salary ? parseFloat(data.salary) : null,
+            };
+
+            await createWorker(payload);
+            onSuccess();
+          } catch (error) {
+            console.error('Error saving worker:', error);
+          }
+        };
+
+        return (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="employeeId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Employee ID</FormLabel>
+                      <FormControl>
+                        <Input placeholder="EMP001" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Role</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select role" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Faculty">Faculty</SelectItem>
+                          <SelectItem value="Staff">Staff</SelectItem>
+                          <SelectItem value="Admin">Admin</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="john.doe@university.edu" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input placeholder="(555) 123-4567" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="department"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Department</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Computer Science" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="Inactive">Inactive</SelectItem>
+                          <SelectItem value="On Leave">On Leave</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="hireDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Hire Date</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="salary"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Salary</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="50000" step="0.01" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex justify-end space-x-2">
+                <Button type="submit" disabled={isCreating}>
+                  {worker ? 'Update Worker' : 'Create Worker'}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        );
+      }
+    components/EnrollmentsTab.tsx: >
+      import { useState } from 'react';
+
+      import { useLoadAction, useMutateAction } from '@uibakery/data';
+
+      import { Card, CardContent, CardHeader, CardTitle } from
+      '@/components/ui/card';
+
+      import { Button } from '@/components/ui/button';
+
+      import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger }
+      from '@/components/ui/dialog';
+
+      import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow }
+      from '@/components/ui/table';
+
+      import { Badge } from '@/components/ui/badge';
+
+      import { Plus, Edit } from 'lucide-react';
+
+      import { EnrollmentForm } from '@/components/EnrollmentForm';
+
+      import loadEnrollmentsAction from '@/actions/loadEnrollments';
+
+
+      type Enrollment = {
+        id: number;
+        student_name: string;
+        student_id: string;
+        course_code: string;
+        course_name: string;
+        credits: number;
+        semester: string;
+        academic_year: number;
+        grade: string;
+        status: string;
+      };
+
+
+      export function EnrollmentsTab() {
+        const [enrollments, loading, error, refresh] = useLoadAction(loadEnrollmentsAction, []);
+        const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+
+        const getStatusColor = (status: string) => {
+          switch (status) {
+            case 'Enrolled': return 'bg-blue-100 text-blue-800';
+            case 'Completed': return 'bg-green-100 text-green-800';
+            case 'Dropped': return 'bg-red-100 text-red-800';
+            case 'Withdrawn': return 'bg-yellow-100 text-yellow-800';
+            default: return 'bg-gray-100 text-gray-800';
+          }
+        };
+
+        const getGradeColor = (grade: string) => {
+          if (!grade) return 'bg-gray-100 text-gray-800';
+          if (grade.startsWith('A')) return 'bg-green-100 text-green-800';
+          if (grade.startsWith('B')) return 'bg-blue-100 text-blue-800';
+          if (grade.startsWith('C')) return 'bg-yellow-100 text-yellow-800';
+          if (grade.startsWith('D')) return 'bg-orange-100 text-orange-800';
+          if (grade === 'F') return 'bg-red-100 text-red-800';
+          return 'bg-gray-100 text-gray-800';
+        };
+
+        if (loading) return <div className="text-center p-8">Loading enrollments...</div>;
+        if (error) return <div className="text-center p-8 text-red-600">Error loading enrollments</div>;
+
+        return (
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-2xl">Student Enrollments</CardTitle>
+              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    New Enrollment
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Create New Enrollment</DialogTitle>
+                  </DialogHeader>
+                  <EnrollmentForm 
+                    onSuccess={() => {
+                      setIsCreateDialogOpen(false);
+                      refresh();
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Student</TableHead>
+                      <TableHead>Course</TableHead>
+                      <TableHead>Credits</TableHead>
+                      <TableHead>Semester</TableHead>
+                      <TableHead>Academic Year</TableHead>
+                      <TableHead>Grade</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {enrollments.map((enrollment: Enrollment) => (
+                      <TableRow key={enrollment.id}>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{enrollment.student_name}</div>
+                            <div className="text-sm text-gray-500">{enrollment.student_id}</div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{enrollment.course_code}</div>
+                            <div className="text-sm text-gray-500">{enrollment.course_name}</div>
+                          </div>
+                        </TableCell>
+                        <TableCell>{enrollment.credits}</TableCell>
+                        <TableCell>{enrollment.semester}</TableCell>
+                        <TableCell>{enrollment.academic_year}</TableCell>
+                        <TableCell>
+                          <Badge className={getGradeColor(enrollment.grade)}>
+                            {enrollment.grade || 'No Grade'}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge className={getStatusColor(enrollment.status)}>
+                            {enrollment.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {enrollments.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                          No enrollments found. Create your first enrollment to get started.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      }
+    components/EnrollmentForm.tsx: >
+      import { useForm } from 'react-hook-form';
+
+      import { zodResolver } from '@hookform/resolvers/zod';
+
+      import { z } from 'zod';
+
+      import { useLoadAction, useMutateAction } from '@uibakery/data';
+
+      import { Button } from '@/components/ui/button';
+
+      import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage }
+      from '@/components/ui/form';
+
+      import { Input } from '@/components/ui/input';
+
+      import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue }
+      from '@/components/ui/select';
+
+      import createEnrollmentAction from '@/actions/createEnrollment';
+
+      import loadStudentsAction from '@/actions/loadStudents';
+
+      import loadCoursesAction from '@/actions/loadCourses';
+
+
+      const enrollmentSchema = z.object({
+        studentId: z.string().min(1, 'Student is required'),
+        courseId: z.string().min(1, 'Course is required'),
+        semester: z.string().min(1, 'Semester is required'),
+        academicYear: z.string().min(1, 'Academic year is required'),
+        status: z.string().min(1, 'Status is required'),
+      });
+
+
+      type EnrollmentFormData = z.infer<typeof enrollmentSchema>;
+
+
+      interface EnrollmentFormProps {
+        enrollment?: any;
+        onSuccess: () => void;
+      }
+
+
+      export function EnrollmentForm({ enrollment, onSuccess }:
+      EnrollmentFormProps) {
+        const [students] = useLoadAction(loadStudentsAction, []);
+        const [courses] = useLoadAction(loadCoursesAction, []);
+        const [createEnrollment, isCreating] = useMutateAction(createEnrollmentAction);
+
+        const form = useForm<EnrollmentFormData>({
+          resolver: zodResolver(enrollmentSchema),
+          defaultValues: {
+            studentId: enrollment?.student_id?.toString() || '',
+            courseId: enrollment?.course_id?.toString() || '',
+            semester: enrollment?.semester || '',
+            academicYear: enrollment?.academic_year?.toString() || new Date().getFullYear().toString(),
+            status: enrollment?.status || 'Enrolled',
+          },
+        });
+
+        const onSubmit = async (data: EnrollmentFormData) => {
+          try {
+            const payload = {
+              ...data,
+              studentId: parseInt(data.studentId),
+              courseId: parseInt(data.courseId),
+              academicYear: parseInt(data.academicYear),
+            };
+
+            await createEnrollment(payload);
+            onSuccess();
+          } catch (error) {
+            console.error('Error saving enrollment:', error);
+          }
+        };
+
+        return (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="studentId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Student</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select student" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {students.map((student: any) => (
+                            <SelectItem key={student.id} value={student.id.toString()}>
+                              {student.first_name} {student.last_name} ({student.student_id})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="courseId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Course</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select course" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {courses.map((course: any) => (
+                            <SelectItem key={course.id} value={course.id.toString()}>
+                              {course.course_code} - {course.course_name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="semester"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Semester</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select semester" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Fall">Fall</SelectItem>
+                          <SelectItem value="Spring">Spring</SelectItem>
+                          <SelectItem value="Summer">Summer</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="academicYear"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Academic Year</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="2024" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Enrolled">Enrolled</SelectItem>
+                        <SelectItem value="Completed">Completed</SelectItem>
+                        <SelectItem value="Dropped">Dropped</SelectItem>
+                        <SelectItem value="Withdrawn">Withdrawn</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex justify-end space-x-2">
+                <Button type="submit" disabled={isCreating}>
+                  {enrollment ? 'Update Enrollment' : 'Create Enrollment'}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        );
+      }
+  data: '{{ module.data }}'
+  __UIBAKERY__RESPONSIVE__SHOW__CONDITION__CODE__:
+    - xl
+    - xs
+  fileSystemCompiled: >
+    <script src="assets/tailwind.js"></script>
+
+    <link rel="stylesheet" href="assets/tailwind.css" />
+
+    <style></style>
+
+
+    <div class="root"></div>
+
+
+    <script>
+     window['UIB_MODULES_TO_LOAD_UIB_PROD_BUILD_COMPONENT_ID_MOCK.id']=["react", "react-dom", "react-dom/client", "react/jsx-dev-runtime", "react-hook-form", "lucide-react", "@radix-ui/react-tabs", "clsx", "tailwind-merge", "@radix-ui/react-slot", "@radix-ui/react-dialog", "class-variance-authority", "@hookform/resolvers/zod", "zod", "@radix-ui/react-icons", "@radix-ui/react-select", "@radix-ui/react-label"];
+    </script>
+
+    <script id="UIB_script_UIB_PROD_BUILD_COMPONENT_ID_MOCK.id.js">(()=>{var
+    ar=Object.create;var Pe=Object.defineProperty;var
+    ir=Object.getOwnPropertyDescriptor;var nr=Object.getOwnPropertyNames;var
+    lr=Object.getPrototypeOf,sr=Object.prototype.hasOwnProperty;var d=(e=>typeof
+    require<"u"?require:typeof Proxy<"u"?new Proxy(e,{get:(t,r)=>(typeof
+    require<"u"?require:t)[r]}):e)(function(e){if(typeof require<"u")return
+    require.apply(this,arguments);throw Error('Dynamic require of "'+e+'" is not
+    supported')});var x=(e,t)=>()=>(e&&(t=e(e=0)),t);var mr=(e,t)=>{for(var r in
+    t)Pe(e,r,{get:t[r],enumerable:!0})},et=(e,t,r,l)=>{if(t&&typeof
+    t=="object"||typeof t=="function")for(let m of
+    nr(t))!sr.call(e,m)&&m!==r&&Pe(e,m,{get:()=>t[m],enumerable:!(l=ir(t,m))||l.enumerable});return
+    e};var
+    W=(e,t,r)=>(r=e!=null?ar(lr(e)):{},et(t||!e||!e.__esModule?Pe(r,"default",{value:e,enumerable:!0}):r,e)),dr=e=>et(Pe({},"__esModule",{value:!0}),e);var
+    c,f,a=x(()=>{c=window.UB_CUSTOM_REACT_APP_BUS["UIB_PROD_BUILD_COMPONENT_ID_MOCK.id"].bus,f=c.customConsole});function
+    s(...e){return(0,rt.twMerge)((0,tt.clsx)(e))}var
+    tt,rt,Y=x(()=>{a();tt=d("clsx"),rt=d("tailwind-merge")});var
+    ue,J,ot,qe,ve,Ce,at=x(()=>{"use
+    client";a();ue=W(d("react")),J=W(d("@radix-ui/react-tabs"));Y();ot=J.Root,qe=ue.forwardRef(({className:e,...t},r)=>ue.createElement(J.List,{ref:r,className:s("inline-flex
+    h-9 items-center justify-center rounded-lg bg-muted p-1
+    text-muted-foreground",e),...t}));qe.displayName=J.List.displayName;ve=ue.forwardRef(({className:e,...t},r)=>ue.createElement(J.Trigger,{ref:r,className:s("inline-flex
+    items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm
+    font-medium ring-offset-background transition-all focus-visible:outline-none
+    focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+    disabled:pointer-events-none disabled:opacity-50
+    data-[state=active]:bg-background data-[state=active]:text-foreground
+    data-[state=active]:shadow",e),...t}));ve.displayName=J.Trigger.displayName;Ce=ue.forwardRef(({className:e,...t},r)=>ue.createElement(J.Content,{ref:r,className:s("mt-2
+    ring-offset-background focus-visible:outline-none focus-visible:ring-2
+    focus-visible:ring-ring
+    focus-visible:ring-offset-2",e),...t}));Ce.displayName=J.Content.displayName});var
+    $r,k,X,Zr,Kr,Jr,w,L=x(()=>{a();$r=c.useData,k=c.useLoadAction,X=c.useMutateAction,Zr=c.triggerEvent,Kr=c.ActionSettings,Jr=c.ActionConfig,w=c.action});var
+    j,ae,ie,ne,cr,le,ur,he=x(()=>{a();j=W(d("react"));Y();ae=j.forwardRef(({className:e,...t},r)=>j.createElement("div",{ref:r,className:s("rounded-lg
+    border bg-card text-card-foreground
+    shadow-sm",e),...t}));ae.displayName="Card";ie=j.forwardRef(({className:e,...t},r)=>j.createElement("div",{ref:r,className:s("flex
+    flex-col space-y-1.5
+    p-6",e),...t}));ie.displayName="CardHeader";ne=j.forwardRef(({className:e,...t},r)=>j.createElement("h3",{ref:r,className:s("text-2xl
+    font-semibold leading-none
+    tracking-tight",e),...t}));ne.displayName="CardTitle";cr=j.forwardRef(({className:e,...t},r)=>j.createElement("p",{ref:r,className:s("text-sm
+    text-muted-foreground",e),...t}));cr.displayName="CardDescription";le=j.forwardRef(({className:e,...t},r)=>j.createElement("div",{ref:r,className:s("p-6
+    pt-0",e),...t}));le.displayName="CardContent";ur=j.forwardRef(({className:e,...t},r)=>j.createElement("div",{ref:r,className:s("flex
+    items-center p-6 pt-0",e),...t}));ur.displayName="CardFooter"});var
+    Ee,it,nt,pr,D,se=x(()=>{a();Ee=W(d("react")),it=d("@radix-ui/react-slot"),nt=d("class-variance-authority");Y();pr=(0,nt.cva)("inline-flex
+    items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm
+    font-medium transition-colors focus-visible:outline-none
+    focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none
+    disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4
+    [&_svg]:shrink-0",{variants:{variant:{default:"bg-primary
+    text-primary-foreground shadow
+    hover:bg-primary/90",destructive:"bg-destructive text-destructive-foreground
+    shadow-sm hover:bg-destructive/90",outline:"border border-input
+    bg-background shadow-sm hover:bg-accent
+    hover:text-accent-foreground",secondary:"bg-secondary
+    text-secondary-foreground shadow-sm
+    hover:bg-secondary/80",ghost:"hover:bg-accent
+    hover:text-accent-foreground",link:"text-primary underline-offset-4
+    hover:underline"},size:{default:"h-9 px-4 py-2",sm:"h-8 rounded-md px-3
+    text-xs",lg:"h-10 rounded-md px-8",icon:"h-9
+    w-9"}},defaultVariants:{variant:"default",size:"default"}}),D=Ee.forwardRef(({className:e,variant:t,size:r,asChild:l=!1,...m},p)=>Ee.createElement(l?it.Slot:"button",{className:s(pr({variant:t,size:r,className:e})),ref:p,...m}));D.displayName="Button"});var
+    A,P,lt,ee,te,fr,st,G,Q,gr,$,br,Ne=x(()=>{a();A=W(d("react")),P=W(d("@radix-ui/react-dialog"));Y();lt=d("@radix-ui/react-icons"),ee=P.Root,te=P.Trigger,fr=P.Portal,st=A.forwardRef(({className:e,...t},r)=>A.createElement(P.Overlay,{ref:r,className:s("fixed
+    inset-0 z-50 bg-black/80  data-[state=open]:animate-in
+    data-[state=closed]:animate-out data-[state=closed]:fade-out-0
+    data-[state=open]:fade-in-0",e),...t}));st.displayName=P.Overlay.displayName;G=A.forwardRef(({className:e,children:t,...r},l)=>A.createElement(fr,null,A.createElement(st,null),A.createElement(P.Content,{ref:l,className:s("fixed
+    left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%]
+    translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200
+    data-[state=open]:animate-in data-[state=closed]:animate-out
+    data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0
+    data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95
+    data-[state=closed]:slide-out-to-left-1/2
+    data-[state=closed]:slide-out-to-top-[48%]
+    data-[state=open]:slide-in-from-left-1/2
+    data-[state=open]:slide-in-from-top-[48%]
+    sm:rounded-lg",e),...r},t,A.createElement(P.Close,{className:"absolute
+    right-4 top-4 rounded-sm opacity-70 ring-offset-background
+    transition-opacity hover:opacity-100 focus:outline-none focus:ring-2
+    focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none
+    data-[state=open]:bg-accent
+    data-[state=open]:text-muted-foreground"},A.createElement(lt.Cross2Icon,{className:"h-4
+    w-4"}),A.createElement("span",{className:"sr-only"},"Close")))));G.displayName=P.Content.displayName;Q=({className:e,...t})=>A.createElement("div",{className:s("flex
+    flex-col space-y-1.5 text-center
+    sm:text-left",e),...t});Q.displayName="DialogHeader";gr=({className:e,...t})=>A.createElement("div",{className:s("flex
+    flex-col-reverse sm:flex-row sm:justify-end
+    sm:space-x-2",e),...t});gr.displayName="DialogFooter";$=A.forwardRef(({className:e,...t},r)=>A.createElement(P.Title,{ref:r,className:s("text-lg
+    font-semibold leading-none
+    tracking-tight",e),...t}));$.displayName=P.Title.displayName;br=A.forwardRef(({className:e,...t},r)=>A.createElement(P.Description,{ref:r,className:s("text-sm
+    text-muted-foreground",e),...t}));br.displayName=P.Description.displayName});var
+    E,me,de,ce,vr,_,T,u,Cr,Fe=x(()=>{a();E=W(d("react"));Y();me=E.forwardRef(({className:e,...t},r)=>E.createElement("div",{className:"relative
+    w-full overflow-auto"},E.createElement("table",{ref:r,className:s("w-full
+    caption-bottom
+    text-sm",e),...t})));me.displayName="Table";de=E.forwardRef(({className:e,...t},r)=>E.createElement("thead",{ref:r,className:s("[&_tr]:border-b",e),...t}));de.displayName="TableHeader";ce=E.forwardRef(({className:e,...t},r)=>E.createElement("tbody",{ref:r,className:s("[&_tr:last-child]:border-0",e),...t}));ce.displayName="TableBody";vr=E.forwardRef(({className:e,...t},r)=>E.createElement("tfoot",{ref:r,className:s("border-t
+    bg-muted/50 font-medium
+    [&>tr]:last:border-b-0",e),...t}));vr.displayName="TableFooter";_=E.forwardRef(({className:e,...t},r)=>E.createElement("tr",{ref:r,className:s("border-b
+    transition-colors hover:bg-muted/50
+    data-[state=selected]:bg-muted",e),...t}));_.displayName="TableRow";T=E.forwardRef(({className:e,...t},r)=>E.createElement("th",{ref:r,className:s("h-10
+    px-2 text-left align-middle font-medium text-muted-foreground
+    [&:has([role=checkbox])]:pr-0
+    [&>[role=checkbox]]:translate-y-[2px]",e),...t}));T.displayName="TableHead";u=E.forwardRef(({className:e,...t},r)=>E.createElement("td",{ref:r,className:s("p-2
+    align-middle [&:has([role=checkbox])]:pr-0
+    [&>[role=checkbox]]:translate-y-[2px]",e),...t}));u.displayName="TableCell";Cr=E.forwardRef(({className:e,...t},r)=>E.createElement("caption",{ref:r,className:s("mt-4
+    text-sm
+    text-muted-foreground",e),...t}));Cr.displayName="TableCaption"});function
+    re({className:e,variant:t,...r}){return
+    mt.createElement("div",{className:s(Tr({variant:t}),e),...r})}var
+    mt,dt,Tr,Re=x(()=>{a();mt=W(d("react")),dt=d("class-variance-authority");Y();Tr=(0,dt.cva)("inline-flex
+    items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold
+    transition-colors focus:outline-none focus:ring-2 focus:ring-ring
+    focus:ring-offset-2",{variants:{variant:{default:"border-transparent
+    bg-primary text-primary-foreground shadow
+    hover:bg-primary/80",secondary:"border-transparent bg-secondary
+    text-secondary-foreground
+    hover:bg-secondary/80",destructive:"border-transparent bg-destructive
+    text-destructive-foreground shadow
+    hover:bg-destructive/80",outline:"text-foreground"}},defaultVariants:{variant:"default"}})});var
+    He,ze,ct,yr,Ye,ut=x(()=>{a();He=W(d("react")),ze=W(d("@radix-ui/react-label")),ct=d("class-variance-authority");Y();yr=(0,ct.cva)("text-sm
+    font-medium leading-none peer-disabled:cursor-not-allowed
+    peer-disabled:opacity-70"),Ye=He.forwardRef(({className:e,...t},r)=>He.createElement(ze.Root,{ref:r,className:s(yr(),e),...t}));Ye.displayName=ze.Root.displayName});var
+    I,pt,Te,pe,ft,y,Me,gt,g,b,v,Sr,C,De=x(()=>{a();I=W(d("react")),pt=d("@radix-ui/react-slot"),Te=d("react-hook-form");Y();ut();pe=Te.FormProvider,ft=I.createContext({}),y=({...e})=>I.createElement(ft.Provider,{value:{name:e.name}},I.createElement(Te.Controller,{...e})),Me=()=>{let
+    e=I.useContext(ft),t=I.useContext(gt),{getFieldState:r,formState:l}=(0,Te.useFormContext)(),m=r(e.name,l);if(!e)throw
+    new Error("useFormField should be used within
+    <FormField>");let{id:p}=t;return{id:p,name:e.name,formItemId:`${p}-form-item`,formDescriptionId:`${p}-form-item-description`,formMessageId:`${p}-form-item-message`,...m}},gt=I.createContext({}),g=I.forwardRef(({className:e,...t},r)=>{let
+    l=I.useId();return
+    I.createElement(gt.Provider,{value:{id:l}},I.createElement("div",{ref:r,className:s("space-y-2",e),...t}))});g.displayName="FormItem";b=I.forwardRef(({className:e,...t},r)=>{let{error:l,formItemId:m}=Me();return
+    I.createElement(Ye,{ref:r,className:s(l&&"text-destructive",e),htmlFor:m,...t})});b.displayName="FormLabel";v=I.forwardRef(({...e},t)=>{let{error:r,formItemId:l,formDescriptionId:m,formMessageId:p}=Me();return
+    I.createElement(pt.Slot,{ref:t,id:l,"aria-describedby":r?`${m}
+    ${p}`:`${m}`,"aria-invalid":!!r,...e})});v.displayName="FormControl";Sr=I.forwardRef(({className:e,...t},r)=>{let{formDescriptionId:l}=Me();return
+    I.createElement("p",{ref:r,id:l,className:s("text-[0.8rem]
+    text-muted-foreground",e),...t})});Sr.displayName="FormDescription";C=I.forwardRef(({className:e,children:t,...r},l)=>{let{error:m,formMessageId:p}=Me(),n=m?String(m?.message??""):t;return
+    n?I.createElement("p",{ref:l,id:p,className:s("text-[0.8rem] font-medium
+    text-destructive",e),...r},n):null});C.displayName="FormMessage"});var
+    Ae,R,Ie=x(()=>{a();Ae=W(d("react"));Y();R=Ae.forwardRef(({className:e,type:t,...r},l)=>Ae.createElement("input",{type:t,className:s("flex
+    h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base
+    shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm
+    file:font-medium file:text-foreground placeholder:text-muted-foreground
+    focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
+    disabled:cursor-not-allowed disabled:opacity-50
+    md:text-sm",e),ref:l,...r}));R.displayName="Input"});var
+    _e,we,Ge=x(()=>{a();_e=W(d("react"));Y();we=_e.forwardRef(({className:e,...t},r)=>_e.createElement("textarea",{className:s("flex
+    min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2
+    text-base shadow-sm placeholder:text-muted-foreground
+    focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
+    disabled:cursor-not-allowed disabled:opacity-50
+    md:text-sm",e),ref:r,...t}));we.displayName="Textarea"});var
+    F,S,ge,q,z,O,bt,vt,U,xr,N,hr,Le=x(()=>{"use
+    client";a();F=W(d("react")),S=W(d("@radix-ui/react-select"));Y();ge=d("@radix-ui/react-icons"),q=S.Root,z=S.Value,O=F.forwardRef(({className:e,children:t,...r},l)=>F.createElement(S.Trigger,{ref:l,className:s("flex
+    h-9 w-full items-center justify-between whitespace-nowrap rounded-md border
+    border-input bg-transparent px-3 py-2 text-sm shadow-sm
+    ring-offset-background data-[placeholder]:text-muted-foreground
+    focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed
+    disabled:opacity-50
+    [&>span]:line-clamp-1",e),...r},t,F.createElement(S.Icon,{asChild:!0},F.createElement(ge.ChevronDownIcon,{className:"h-4
+    w-4
+    opacity-50"}))));O.displayName=S.Trigger.displayName;bt=F.forwardRef(({className:e,...t},r)=>F.createElement(S.ScrollUpButton,{ref:r,className:s("flex
+    cursor-default items-center justify-center
+    py-1",e),...t},F.createElement(ge.ChevronUpIcon,{className:"h-4
+    w-4"})));bt.displayName=S.ScrollUpButton.displayName;vt=F.forwardRef(({className:e,...t},r)=>F.createElement(S.ScrollDownButton,{ref:r,className:s("flex
+    cursor-default items-center justify-center
+    py-1",e),...t},F.createElement(ge.ChevronDownIcon,{className:"h-4
+    w-4"})));vt.displayName=S.ScrollDownButton.displayName;U=F.forwardRef(({className:e,children:t,position:r="popper",...l},m)=>F.createElement(S.Portal,null,F.createElement(S.Content,{ref:m,className:s("relative
+    z-50 max-h-[--radix-select-content-available-height] min-w-[8rem]
+    overflow-y-auto overflow-x-hidden rounded-md border bg-popover
+    text-popover-foreground shadow-md data-[state=open]:animate-in
+    data-[state=closed]:animate-out data-[state=closed]:fade-out-0
+    data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95
+    data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2
+    data-[side=left]:slide-in-from-right-2
+    data-[side=right]:slide-in-from-left-2
+    data-[side=top]:slide-in-from-bottom-2
+    origin-[--radix-select-content-transform-origin]",r==="popper"&&"data-[side=bottom]:translate-y-1
+    data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1
+    data-[side=top]:-translate-y-1",e),position:r,...l},F.createElement(bt,null),F.createElement(S.Viewport,{className:s("p-1",r==="popper"&&"h-[var(--radix-select-trigger-height)]
+    w-full
+    min-w-[var(--radix-select-trigger-width)]")},t),F.createElement(vt,null))));U.displayName=S.Content.displayName;xr=F.forwardRef(({className:e,...t},r)=>F.createElement(S.Label,{ref:r,className:s("px-2
+    py-1.5 text-sm
+    font-semibold",e),...t}));xr.displayName=S.Label.displayName;N=F.forwardRef(({className:e,children:t,...r},l)=>F.createElement(S.Item,{ref:l,className:s("relative
+    flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2
+    pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground
+    data-[disabled]:pointer-events-none
+    data-[disabled]:opacity-50",e),...r},F.createElement("span",{className:"absolute
+    right-2 flex h-3.5 w-3.5 items-center
+    justify-center"},F.createElement(S.ItemIndicator,null,F.createElement(ge.CheckIcon,{className:"h-4
+    w-4"}))),F.createElement(S.ItemText,null,t)));N.displayName=S.Item.displayName;hr=F.forwardRef(({className:e,...t},r)=>F.createElement(S.Separator,{ref:r,className:s("-mx-1
+    my-1 h-px
+    bg-muted",e),...t}));hr.displayName=S.Separator.displayName});function
+    Nr(){return w("createStudent","SQL",{})}var
+    Ct,Tt=x(()=>{a();L();Ct=Nr});function Fr(){return
+    w("updateStudent","SQL",{})}var yt,St=x(()=>{a();L();yt=Fr});function
+    Rr(){return w("loadYearLevels","SQL",{})}var
+    xt,ht=x(()=>{a();L();xt=Rr});function
+    Qe({student:e,onSuccess:t}){let[r]=k(xt,[]),[l,m]=X(Ct),[p,n]=X(yt),h=(0,Nt.useForm)({resolver:(0,Ft.zodResolver)(Dr),defaultValues:{studentId:e?.student_id||"",firstName:e?.first_name||"",lastName:e?.last_name||"",email:e?.email||"",phone:e?.phone||"",dateOfBirth:e?.date_of_birth?.split("T")[0]||"",address:e?.address||"",yearLevelId:e?.year_level_id?.toString()||"",major:e?.major||"",status:e?.status||"Active"}}),o=async
+    i=>{try{let
+    V={...i,yearLevelId:parseInt(i.yearLevelId),enrollmentDate:e?void 0:new
+    Date().toISOString().split("T")[0]};e?await p({...V,id:e.id}):await
+    l(V),t()}catch(V){f.error("Error saving student:",V)}};return
+    React.createElement(pe,{...h},React.createElement("form",{onSubmit:h.handleSubmit(o),className:"space-y-6"},React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:h.control,name:"studentId",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Student
+    ID"),React.createElement(v,null,React.createElement(R,{placeholder:"STU001",...i})),React.createElement(C,null))}),React.createElement(y,{control:h.control,name:"status",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Status"),React.createElement(q,{onValueChange:i.onChange,defaultValue:i.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    status"}))),React.createElement(U,null,React.createElement(N,{value:"Active"},"Active"),React.createElement(N,{value:"Inactive"},"Inactive"),React.createElement(N,{value:"Graduated"},"Graduated"),React.createElement(N,{value:"Dropped"},"Dropped"),React.createElement(N,{value:"Suspended"},"Suspended"))),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:h.control,name:"firstName",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"First
+    Name"),React.createElement(v,null,React.createElement(R,{placeholder:"John",...i})),React.createElement(C,null))}),React.createElement(y,{control:h.control,name:"lastName",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Last
+    Name"),React.createElement(v,null,React.createElement(R,{placeholder:"Doe",...i})),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:h.control,name:"email",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Email"),React.createElement(v,null,React.createElement(R,{type:"email",placeholder:"john.doe@university.edu",...i})),React.createElement(C,null))}),React.createElement(y,{control:h.control,name:"phone",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Phone"),React.createElement(v,null,React.createElement(R,{placeholder:"(555)
+    123-4567",...i})),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:h.control,name:"dateOfBirth",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Date
+    of
+    Birth"),React.createElement(v,null,React.createElement(R,{type:"date",...i})),React.createElement(C,null))}),React.createElement(y,{control:h.control,name:"yearLevelId",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Year
+    Level"),React.createElement(q,{onValueChange:i.onChange,defaultValue:i.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    year
+    level"}))),React.createElement(U,null,r.map(V=>React.createElement(N,{key:V.id,value:V.id.toString()},V.name)))),React.createElement(C,null))})),React.createElement(y,{control:h.control,name:"major",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Major"),React.createElement(v,null,React.createElement(R,{placeholder:"Computer
+    Science",...i})),React.createElement(C,null))}),React.createElement(y,{control:h.control,name:"address",render:({field:i})=>React.createElement(g,null,React.createElement(b,null,"Address"),React.createElement(v,null,React.createElement(we,{placeholder:"123
+    Main Street, City, State,
+    ZIP",...i})),React.createElement(C,null))}),React.createElement("div",{className:"flex
+    justify-end
+    space-x-2"},React.createElement(D,{type:"submit",disabled:m||n},e?"Update
+    Student":"Create Student"))))}var
+    Nt,Ft,Z,Dr,Rt=x(()=>{a();Nt=d("react-hook-form"),Ft=d("@hookform/resolvers/zod"),Z=d("zod");L();se();De();Ie();Ge();Le();Tt();St();ht();Dr=Z.z.object({studentId:Z.z.string().min(1,"Student
+    ID is required"),firstName:Z.z.string().min(1,"First name is
+    required"),lastName:Z.z.string().min(1,"Last name is
+    required"),email:Z.z.string().email("Invalid email
+    address"),phone:Z.z.string().optional(),dateOfBirth:Z.z.string().min(1,"Date
+    of birth is
+    required"),address:Z.z.string().optional(),yearLevelId:Z.z.string().min(1,"Year
+    level is required"),major:Z.z.string().min(1,"Major is
+    required"),status:Z.z.string().min(1,"Status is required")})});function
+    Ir(){return w("loadStudents","SQL",{})}var
+    Be,$e=x(()=>{a();L();Be=Ir});function wr(){return
+    w("deleteStudent","SQL",{})}var Dt,It=x(()=>{a();L();Dt=wr});function
+    wt(){let[e,t,r,l]=k(Be,[]),[m]=X(Dt),[p,n]=(0,Ve.useState)(null),[h,o]=(0,Ve.useState)(!1),[i,V]=(0,Ve.useState)(!1),M=async
+    B=>{confirm("Are you sure you want to delete this student?")&&(await
+    m({id:B}),l())},H=B=>{switch(B){case"Active":return"bg-green-100
+    text-green-800";case"Inactive":return"bg-gray-100
+    text-gray-800";case"Graduated":return"bg-blue-100
+    text-blue-800";case"Dropped":return"bg-red-100
+    text-red-800";case"Suspended":return"bg-yellow-100
+    text-yellow-800";default:return"bg-gray-100 text-gray-800"}};return
+    t?React.createElement("div",{className:"text-center p-8"},"Loading
+    students..."):r?React.createElement("div",{className:"text-center p-8
+    text-red-600"},"Error loading
+    students"):React.createElement(ae,null,React.createElement(ie,{className:"flex
+    flex-row items-center
+    justify-between"},React.createElement(ne,{className:"text-2xl"},"Students
+    Management"),React.createElement(ee,{open:h,onOpenChange:o},React.createElement(te,{asChild:!0},React.createElement(D,null,React.createElement(ye.Plus,{className:"h-4
+    w-4 mr-2"}),"Add Student")),React.createElement(G,{className:"max-w-2xl
+    max-h-[90vh]
+    overflow-y-auto"},React.createElement(Q,null,React.createElement($,null,"Add
+    New
+    Student")),React.createElement(Qe,{onSuccess:()=>{o(!1),l()}})))),React.createElement(le,null,React.createElement("div",{className:"rounded-md
+    border"},React.createElement(me,null,React.createElement(de,null,React.createElement(_,null,React.createElement(T,null,"Student
+    ID"),React.createElement(T,null,"Name"),React.createElement(T,null,"Email"),React.createElement(T,null,"Major"),React.createElement(T,null,"Year
+    Level"),React.createElement(T,null,"Status"),React.createElement(T,null,"GPA"),React.createElement(T,null,"Actions"))),React.createElement(ce,null,e.map(B=>React.createElement(_,{key:B.id},React.createElement(u,{className:"font-medium"},B.student_id),React.createElement(u,null,`${B.first_name}
+    ${B.last_name}`),React.createElement(u,null,B.email),React.createElement(u,null,B.major),React.createElement(u,null,B.year_level_name),React.createElement(u,null,React.createElement(re,{className:H(B.status)},B.status)),React.createElement(u,null,B.gpa?.toFixed(2)||"N/A"),React.createElement(u,null,React.createElement("div",{className:"flex
+    space-x-2"},React.createElement(ee,{open:i,onOpenChange:V},React.createElement(te,{asChild:!0},React.createElement(D,{variant:"outline",size:"sm",onClick:()=>n(B)},React.createElement(ye.Edit,{className:"h-4
+    w-4"}))),React.createElement(G,{className:"max-w-2xl max-h-[90vh]
+    overflow-y-auto"},React.createElement(Q,null,React.createElement($,null,"Edit
+    Student")),p&&React.createElement(Qe,{student:p,onSuccess:()=>{V(!1),n(null),l()}}))),React.createElement(D,{variant:"outline",size:"sm",onClick:()=>M(B.id)},React.createElement(ye.Trash2,{className:"h-4
+    w-4"})))))),e.length===0&&React.createElement(_,null,React.createElement(u,{colSpan:8,className:"text-center
+    py-8 text-gray-500"},"No students found. Add your first student to get
+    started.")))))))}var
+    Ve,ye,Lt=x(()=>{a();Ve=d("react");L();he();se();Ne();Fe();Re();ye=d("lucide-react");Rt();$e();It()});function
+    Lr(){return w("createCourse","SQL",{})}var
+    Pt,Et=x(()=>{a();L();Pt=Lr});function Pr(){return
+    w("loadWorkers","SQL",{})}var We,Ze=x(()=>{a();L();We=Pr});function
+    Ke({course:e,onSuccess:t}){let[r]=k(We,[]),[l,m]=X(Pt),p=(0,Ht.useForm)({resolver:(0,Mt.zodResolver)(Er),defaultValues:{courseCode:e?.course_code||"",courseName:e?.course_name||"",credits:e?.credits?.toString()||"",description:e?.description||"",department:e?.department||"",instructorId:e?.instructor_id?.toString()||"",maxEnrollment:e?.max_enrollment?.toString()||"30",status:e?.status||"Active"}}),n=async
+    o=>{try{let
+    i={...o,credits:parseInt(o.credits),maxEnrollment:parseInt(o.maxEnrollment),instructorId:o.instructorId&&o.instructorId!=="none"?parseInt(o.instructorId):null};await
+    l(i),t()}catch(i){f.error("Error saving
+    course:",i)}},h=r.filter(o=>o.role==="Faculty");return
+    React.createElement(pe,{...p},React.createElement("form",{onSubmit:p.handleSubmit(n),className:"space-y-6"},React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:p.control,name:"courseCode",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Course
+    Code"),React.createElement(v,null,React.createElement(R,{placeholder:"CS101",...o})),React.createElement(C,null))}),React.createElement(y,{control:p.control,name:"status",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Status"),React.createElement(q,{onValueChange:o.onChange,defaultValue:o.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    status"}))),React.createElement(U,null,React.createElement(N,{value:"Active"},"Active"),React.createElement(N,{value:"Inactive"},"Inactive"),React.createElement(N,{value:"Archived"},"Archived"))),React.createElement(C,null))})),React.createElement(y,{control:p.control,name:"courseName",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Course
+    Name"),React.createElement(v,null,React.createElement(R,{placeholder:"Introduction
+    to Computer
+    Science",...o})),React.createElement(C,null))}),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:p.control,name:"credits",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Credits"),React.createElement(v,null,React.createElement(R,{type:"number",placeholder:"3",...o})),React.createElement(C,null))}),React.createElement(y,{control:p.control,name:"maxEnrollment",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Max
+    Enrollment"),React.createElement(v,null,React.createElement(R,{type:"number",placeholder:"30",...o})),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:p.control,name:"department",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Department"),React.createElement(v,null,React.createElement(R,{placeholder:"Computer
+    Science",...o})),React.createElement(C,null))}),React.createElement(y,{control:p.control,name:"instructorId",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Instructor"),React.createElement(q,{onValueChange:o.onChange,defaultValue:o.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    instructor"}))),React.createElement(U,null,React.createElement(N,{value:"none"},"No
+    instructor
+    assigned"),h.map(i=>React.createElement(N,{key:i.id,value:i.id.toString()},i.first_name,"
+    ",i.last_name)))),React.createElement(C,null))})),React.createElement(y,{control:p.control,name:"description",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Description"),React.createElement(v,null,React.createElement(we,{placeholder:"Course
+    description...",...o})),React.createElement(C,null))}),React.createElement("div",{className:"flex
+    justify-end
+    space-x-2"},React.createElement(D,{type:"submit",disabled:m},e?"Update
+    Course":"Create Course"))))}var
+    Ht,Mt,oe,Er,At=x(()=>{a();Ht=d("react-hook-form"),Mt=d("@hookform/resolvers/zod"),oe=d("zod");L();se();De();Ie();Ge();Le();Et();Ze();Er=oe.z.object({courseCode:oe.z.string().min(1,"Course
+    code is required"),courseName:oe.z.string().min(1,"Course name is
+    required"),credits:oe.z.string().min(1,"Credits is
+    required"),description:oe.z.string().optional(),department:oe.z.string().min(1,"Department
+    is
+    required"),instructorId:oe.z.string().optional(),maxEnrollment:oe.z.string().min(1,"Max
+    enrollment is required"),status:oe.z.string().min(1,"Status is
+    required")})});function Hr(){return w("loadCourses","SQL",{})}var
+    ke,Je=x(()=>{a();L();ke=Hr});function
+    _t(){let[e,t,r,l]=k(ke,[]),[m,p]=(0,Oe.useState)(null),[n,h]=(0,Oe.useState)(!1),[o,i]=(0,Oe.useState)(!1),V=M=>{switch(M){case"Active":return"bg-green-100
+    text-green-800";case"Inactive":return"bg-gray-100
+    text-gray-800";case"Archived":return"bg-red-100
+    text-red-800";default:return"bg-gray-100 text-gray-800"}};return
+    t?React.createElement("div",{className:"text-center p-8"},"Loading
+    courses..."):r?React.createElement("div",{className:"text-center p-8
+    text-red-600"},"Error loading
+    courses"):React.createElement(ae,null,React.createElement(ie,{className:"flex
+    flex-row items-center
+    justify-between"},React.createElement(ne,{className:"text-2xl"},"Course
+    Management"),React.createElement(ee,{open:n,onOpenChange:h},React.createElement(te,{asChild:!0},React.createElement(D,null,React.createElement(Se.Plus,{className:"h-4
+    w-4 mr-2"}),"Add Course")),React.createElement(G,{className:"max-w-2xl
+    max-h-[90vh]
+    overflow-y-auto"},React.createElement(Q,null,React.createElement($,null,"Add
+    New
+    Course")),React.createElement(Ke,{onSuccess:()=>{h(!1),l()}})))),React.createElement(le,null,React.createElement("div",{className:"rounded-md
+    border"},React.createElement(me,null,React.createElement(de,null,React.createElement(_,null,React.createElement(T,null,"Course
+    Code"),React.createElement(T,null,"Course
+    Name"),React.createElement(T,null,"Credits"),React.createElement(T,null,"Department"),React.createElement(T,null,"Instructor"),React.createElement(T,null,"Enrollment"),React.createElement(T,null,"Status"),React.createElement(T,null,"Actions"))),React.createElement(ce,null,e.map(M=>React.createElement(_,{key:M.id},React.createElement(u,{className:"font-medium"},M.course_code),React.createElement(u,null,M.course_name),React.createElement(u,null,M.credits),React.createElement(u,null,M.department),React.createElement(u,null,M.instructor_name||"Not
+    assigned"),React.createElement(u,null,M.enrolled_count||0,"/",M.max_enrollment),React.createElement(u,null,React.createElement(re,{className:V(M.status)},M.status)),React.createElement(u,null,React.createElement("div",{className:"flex
+    space-x-2"},React.createElement(ee,{open:o,onOpenChange:i},React.createElement(te,{asChild:!0},React.createElement(D,{variant:"outline",size:"sm",onClick:()=>p(M)},React.createElement(Se.Edit,{className:"h-4
+    w-4"}))),React.createElement(G,{className:"max-w-2xl max-h-[90vh]
+    overflow-y-auto"},React.createElement(Q,null,React.createElement($,null,"Edit
+    Course")),m&&React.createElement(Ke,{course:m,onSuccess:()=>{i(!1),p(null),l()}}))),React.createElement(D,{variant:"outline",size:"sm"},React.createElement(Se.Trash2,{className:"h-4
+    w-4"})))))),e.length===0&&React.createElement(_,null,React.createElement(u,{colSpan:8,className:"text-center
+    py-8 text-gray-500"},"No courses found. Add your first course to get
+    started.")))))))}var
+    Oe,Se,Bt=x(()=>{a();Oe=d("react");L();he();se();Ne();Fe();Re();Se=d("lucide-react");At();Je()});function
+    Mr(){return w("createWorker","SQL",{})}var
+    Vt,Wt=x(()=>{a();L();Vt=Mr});function
+    Xe({worker:e,onSuccess:t}){let[r,l]=X(Vt),m=(0,kt.useForm)({resolver:(0,Ot.zodResolver)(Ar),defaultValues:{employeeId:e?.employee_id||"",firstName:e?.first_name||"",lastName:e?.last_name||"",email:e?.email||"",phone:e?.phone||"",role:e?.role||"",department:e?.department||"",hireDate:e?.hire_date?.split("T")[0]||"",status:e?.status||"Active",salary:e?.salary?.toString()||""}}),p=async
+    n=>{try{let h={...n,salary:n.salary?parseFloat(n.salary):null};await
+    r(h),t()}catch(h){f.error("Error saving worker:",h)}};return
+    React.createElement(pe,{...m},React.createElement("form",{onSubmit:m.handleSubmit(p),className:"space-y-6"},React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:m.control,name:"employeeId",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Employee
+    ID"),React.createElement(v,null,React.createElement(R,{placeholder:"EMP001",...n})),React.createElement(C,null))}),React.createElement(y,{control:m.control,name:"role",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Role"),React.createElement(q,{onValueChange:n.onChange,defaultValue:n.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    role"}))),React.createElement(U,null,React.createElement(N,{value:"Faculty"},"Faculty"),React.createElement(N,{value:"Staff"},"Staff"),React.createElement(N,{value:"Admin"},"Admin"))),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:m.control,name:"firstName",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"First
+    Name"),React.createElement(v,null,React.createElement(R,{placeholder:"John",...n})),React.createElement(C,null))}),React.createElement(y,{control:m.control,name:"lastName",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Last
+    Name"),React.createElement(v,null,React.createElement(R,{placeholder:"Doe",...n})),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:m.control,name:"email",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Email"),React.createElement(v,null,React.createElement(R,{type:"email",placeholder:"john.doe@university.edu",...n})),React.createElement(C,null))}),React.createElement(y,{control:m.control,name:"phone",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Phone"),React.createElement(v,null,React.createElement(R,{placeholder:"(555)
+    123-4567",...n})),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:m.control,name:"department",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Department"),React.createElement(v,null,React.createElement(R,{placeholder:"Computer
+    Science",...n})),React.createElement(C,null))}),React.createElement(y,{control:m.control,name:"status",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Status"),React.createElement(q,{onValueChange:n.onChange,defaultValue:n.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    status"}))),React.createElement(U,null,React.createElement(N,{value:"Active"},"Active"),React.createElement(N,{value:"Inactive"},"Inactive"),React.createElement(N,{value:"On
+    Leave"},"On
+    Leave"))),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:m.control,name:"hireDate",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Hire
+    Date"),React.createElement(v,null,React.createElement(R,{type:"date",...n})),React.createElement(C,null))}),React.createElement(y,{control:m.control,name:"salary",render:({field:n})=>React.createElement(g,null,React.createElement(b,null,"Salary"),React.createElement(v,null,React.createElement(R,{type:"number",placeholder:"50000",step:"0.01",...n})),React.createElement(C,null))})),React.createElement("div",{className:"flex
+    justify-end
+    space-x-2"},React.createElement(D,{type:"submit",disabled:l},e?"Update
+    Worker":"Create Worker"))))}var
+    kt,Ot,K,Ar,Ut=x(()=>{a();kt=d("react-hook-form"),Ot=d("@hookform/resolvers/zod"),K=d("zod");L();se();De();Ie();Le();Wt();Ar=K.z.object({employeeId:K.z.string().min(1,"Employee
+    ID is required"),firstName:K.z.string().min(1,"First name is
+    required"),lastName:K.z.string().min(1,"Last name is
+    required"),email:K.z.string().email("Invalid email
+    address"),phone:K.z.string().optional(),role:K.z.string().min(1,"Role is
+    required"),department:K.z.string().min(1,"Department is
+    required"),hireDate:K.z.string().min(1,"Hire date is
+    required"),status:K.z.string().min(1,"Status is
+    required"),salary:K.z.string().optional()})});function
+    jt(){let[e,t,r,l]=k(We,[]),[m,p]=(0,Ue.useState)(null),[n,h]=(0,Ue.useState)(!1),[o,i]=(0,Ue.useState)(!1),V=H=>{switch(H){case"Faculty":return"bg-blue-100
+    text-blue-800";case"Staff":return"bg-green-100
+    text-green-800";case"Admin":return"bg-purple-100
+    text-purple-800";default:return"bg-gray-100
+    text-gray-800"}},M=H=>{switch(H){case"Active":return"bg-green-100
+    text-green-800";case"Inactive":return"bg-gray-100 text-gray-800";case"On
+    Leave":return"bg-yellow-100 text-yellow-800";default:return"bg-gray-100
+    text-gray-800"}};return t?React.createElement("div",{className:"text-center
+    p-8"},"Loading
+    workers..."):r?React.createElement("div",{className:"text-center p-8
+    text-red-600"},"Error loading
+    workers"):React.createElement(ae,null,React.createElement(ie,{className:"flex
+    flex-row items-center
+    justify-between"},React.createElement(ne,{className:"text-2xl"},"Workers
+    Management"),React.createElement(ee,{open:n,onOpenChange:h},React.createElement(te,{asChild:!0},React.createElement(D,null,React.createElement(xe.Plus,{className:"h-4
+    w-4 mr-2"}),"Add Worker")),React.createElement(G,{className:"max-w-2xl
+    max-h-[90vh]
+    overflow-y-auto"},React.createElement(Q,null,React.createElement($,null,"Add
+    New
+    Worker")),React.createElement(Xe,{onSuccess:()=>{h(!1),l()}})))),React.createElement(le,null,React.createElement("div",{className:"rounded-md
+    border"},React.createElement(me,null,React.createElement(de,null,React.createElement(_,null,React.createElement(T,null,"Employee
+    ID"),React.createElement(T,null,"Name"),React.createElement(T,null,"Email"),React.createElement(T,null,"Role"),React.createElement(T,null,"Department"),React.createElement(T,null,"Hire
+    Date"),React.createElement(T,null,"Status"),React.createElement(T,null,"Actions"))),React.createElement(ce,null,e.map(H=>React.createElement(_,{key:H.id},React.createElement(u,{className:"font-medium"},H.employee_id),React.createElement(u,null,`${H.first_name}
+    ${H.last_name}`),React.createElement(u,null,H.email),React.createElement(u,null,React.createElement(re,{className:V(H.role)},H.role)),React.createElement(u,null,H.department),React.createElement(u,null,new
+    Date(H.hire_date).toLocaleDateString()),React.createElement(u,null,React.createElement(re,{className:M(H.status)},H.status)),React.createElement(u,null,React.createElement("div",{className:"flex
+    space-x-2"},React.createElement(ee,{open:o,onOpenChange:i},React.createElement(te,{asChild:!0},React.createElement(D,{variant:"outline",size:"sm",onClick:()=>p(H)},React.createElement(xe.Edit,{className:"h-4
+    w-4"}))),React.createElement(G,{className:"max-w-2xl max-h-[90vh]
+    overflow-y-auto"},React.createElement(Q,null,React.createElement($,null,"Edit
+    Worker")),m&&React.createElement(Xe,{worker:m,onSuccess:()=>{i(!1),p(null),l()}}))),React.createElement(D,{variant:"outline",size:"sm"},React.createElement(xe.Trash2,{className:"h-4
+    w-4"})))))),e.length===0&&React.createElement(_,null,React.createElement(u,{colSpan:8,className:"text-center
+    py-8 text-gray-500"},"No workers found. Add your first worker to get
+    started.")))))))}var
+    Ue,xe,qt=x(()=>{a();Ue=d("react");L();he();se();Ne();Fe();Re();xe=d("lucide-react");Ut();Ze()});function
+    _r(){return w("createEnrollment","SQL",{})}var
+    zt,Yt=x(()=>{a();L();zt=_r});function
+    $t({enrollment:e,onSuccess:t}){let[r]=k(Be,[]),[l]=k(ke,[]),[m,p]=X(zt),n=(0,Gt.useForm)({resolver:(0,Qt.zodResolver)(Br),defaultValues:{studentId:e?.student_id?.toString()||"",courseId:e?.course_id?.toString()||"",semester:e?.semester||"",academicYear:e?.academic_year?.toString()||new
+    Date().getFullYear().toString(),status:e?.status||"Enrolled"}}),h=async
+    o=>{try{let
+    i={...o,studentId:parseInt(o.studentId),courseId:parseInt(o.courseId),academicYear:parseInt(o.academicYear)};await
+    m(i),t()}catch(i){f.error("Error saving enrollment:",i)}};return
+    React.createElement(pe,{...n},React.createElement("form",{onSubmit:n.handleSubmit(h),className:"space-y-6"},React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:n.control,name:"studentId",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Student"),React.createElement(q,{onValueChange:o.onChange,defaultValue:o.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    student"}))),React.createElement(U,null,r.map(i=>React.createElement(N,{key:i.id,value:i.id.toString()},i.first_name,"
+    ",i.last_name,"
+    (",i.student_id,")")))),React.createElement(C,null))}),React.createElement(y,{control:n.control,name:"courseId",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Course"),React.createElement(q,{onValueChange:o.onChange,defaultValue:o.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    course"}))),React.createElement(U,null,l.map(i=>React.createElement(N,{key:i.id,value:i.id.toString()},i.course_code,"
+    -
+    ",i.course_name)))),React.createElement(C,null))})),React.createElement("div",{className:"grid
+    grid-cols-2
+    gap-4"},React.createElement(y,{control:n.control,name:"semester",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Semester"),React.createElement(q,{onValueChange:o.onChange,defaultValue:o.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    semester"}))),React.createElement(U,null,React.createElement(N,{value:"Fall"},"Fall"),React.createElement(N,{value:"Spring"},"Spring"),React.createElement(N,{value:"Summer"},"Summer"))),React.createElement(C,null))}),React.createElement(y,{control:n.control,name:"academicYear",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Academic
+    Year"),React.createElement(v,null,React.createElement(R,{type:"number",placeholder:"2024",...o})),React.createElement(C,null))})),React.createElement(y,{control:n.control,name:"status",render:({field:o})=>React.createElement(g,null,React.createElement(b,null,"Status"),React.createElement(q,{onValueChange:o.onChange,defaultValue:o.value},React.createElement(v,null,React.createElement(O,null,React.createElement(z,{placeholder:"Select
+    status"}))),React.createElement(U,null,React.createElement(N,{value:"Enrolled"},"Enrolled"),React.createElement(N,{value:"Completed"},"Completed"),React.createElement(N,{value:"Dropped"},"Dropped"),React.createElement(N,{value:"Withdrawn"},"Withdrawn"))),React.createElement(C,null))}),React.createElement("div",{className:"flex
+    justify-end
+    space-x-2"},React.createElement(D,{type:"submit",disabled:p},e?"Update
+    Enrollment":"Create Enrollment"))))}var
+    Gt,Qt,be,Br,Zt=x(()=>{a();Gt=d("react-hook-form"),Qt=d("@hookform/resolvers/zod"),be=d("zod");L();se();De();Ie();Le();Yt();$e();Je();Br=be.z.object({studentId:be.z.string().min(1,"Student
+    is required"),courseId:be.z.string().min(1,"Course is
+    required"),semester:be.z.string().min(1,"Semester is
+    required"),academicYear:be.z.string().min(1,"Academic year is
+    required"),status:be.z.string().min(1,"Status is required")})});function
+    Vr(){return w("loadEnrollments","SQL",{})}var
+    Kt,Jt=x(()=>{a();L();Kt=Vr});function
+    er(){let[e,t,r,l]=k(Kt,[]),[m,p]=(0,Xt.useState)(!1),n=o=>{switch(o){case"Enrolled":return"bg-blue-100
+    text-blue-800";case"Completed":return"bg-green-100
+    text-green-800";case"Dropped":return"bg-red-100
+    text-red-800";case"Withdrawn":return"bg-yellow-100
+    text-yellow-800";default:return"bg-gray-100
+    text-gray-800"}},h=o=>o?o.startsWith("A")?"bg-green-100
+    text-green-800":o.startsWith("B")?"bg-blue-100
+    text-blue-800":o.startsWith("C")?"bg-yellow-100
+    text-yellow-800":o.startsWith("D")?"bg-orange-100
+    text-orange-800":o==="F"?"bg-red-100 text-red-800":"bg-gray-100
+    text-gray-800":"bg-gray-100 text-gray-800";return
+    t?React.createElement("div",{className:"text-center p-8"},"Loading
+    enrollments..."):r?React.createElement("div",{className:"text-center p-8
+    text-red-600"},"Error loading
+    enrollments"):React.createElement(ae,null,React.createElement(ie,{className:"flex
+    flex-row items-center
+    justify-between"},React.createElement(ne,{className:"text-2xl"},"Student
+    Enrollments"),React.createElement(ee,{open:m,onOpenChange:p},React.createElement(te,{asChild:!0},React.createElement(D,null,React.createElement(je.Plus,{className:"h-4
+    w-4 mr-2"}),"New Enrollment")),React.createElement(G,{className:"max-w-2xl
+    max-h-[90vh]
+    overflow-y-auto"},React.createElement(Q,null,React.createElement($,null,"Create
+    New
+    Enrollment")),React.createElement($t,{onSuccess:()=>{p(!1),l()}})))),React.createElement(le,null,React.createElement("div",{className:"rounded-md
+    border"},React.createElement(me,null,React.createElement(de,null,React.createElement(_,null,React.createElement(T,null,"Student"),React.createElement(T,null,"Course"),React.createElement(T,null,"Credits"),React.createElement(T,null,"Semester"),React.createElement(T,null,"Academic
+    Year"),React.createElement(T,null,"Grade"),React.createElement(T,null,"Status"),React.createElement(T,null,"Actions"))),React.createElement(ce,null,e.map(o=>React.createElement(_,{key:o.id},React.createElement(u,null,React.createElement("div",null,React.createElement("div",{className:"font-medium"},o.student_name),React.createElement("div",{className:"text-sm
+    text-gray-500"},o.student_id))),React.createElement(u,null,React.createElement("div",null,React.createElement("div",{className:"font-medium"},o.course_code),React.createElement("div",{className:"text-sm
+    text-gray-500"},o.course_name))),React.createElement(u,null,o.credits),React.createElement(u,null,o.semester),React.createElement(u,null,o.academic_year),React.createElement(u,null,React.createElement(re,{className:h(o.grade)},o.grade||"No
+    Grade")),React.createElement(u,null,React.createElement(re,{className:n(o.status)},o.status)),React.createElement(u,null,React.createElement(D,{variant:"outline",size:"sm"},React.createElement(je.Edit,{className:"h-4
+    w-4"}))))),e.length===0&&React.createElement(_,null,React.createElement(u,{colSpan:8,className:"text-center
+    py-8 text-gray-500"},"No enrollments found. Create your first enrollment to
+    get started.")))))))}var
+    Xt,je,tr=x(()=>{a();Xt=d("react");L();he();se();Ne();Fe();Re();je=d("lucide-react");Zt();Jt()});var
+    rr={};mr(rr,{default:()=>kr});function Wr(){return
+    React.createElement("div",{className:"min-h-screen bg-gray-50
+    p-6"},React.createElement("div",{className:"mx-auto max-w-7xl
+    space-y-6"},React.createElement("div",{className:"text-center
+    space-y-2"},React.createElement("h1",{className:"text-4xl font-bold
+    text-gray-900"},"Higher Education Management
+    System"),React.createElement("p",{className:"text-lg
+    text-gray-600"},"Comprehensive management for students, courses, and
+    staff")),React.createElement(ot,{defaultValue:"students",className:"space-y-6"},React.createElement(qe,{className:"grid
+    w-full
+    grid-cols-4"},React.createElement(ve,{value:"students",className:"flex
+    items-center gap-2"},React.createElement(fe.GraduationCap,{className:"h-4
+    w-4"}),"Students"),React.createElement(ve,{value:"courses",className:"flex
+    items-center gap-2"},React.createElement(fe.BookOpen,{className:"h-4
+    w-4"}),"Courses"),React.createElement(ve,{value:"workers",className:"flex
+    items-center gap-2"},React.createElement(fe.UserCheck,{className:"h-4
+    w-4"}),"Workers"),React.createElement(ve,{value:"enrollments",className:"flex
+    items-center gap-2"},React.createElement(fe.Users,{className:"h-4
+    w-4"}),"Enrollments")),React.createElement(Ce,{value:"students"},React.createElement(wt,null)),React.createElement(Ce,{value:"courses"},React.createElement(_t,null)),React.createElement(Ce,{value:"workers"},React.createElement(jt,null)),React.createElement(Ce,{value:"enrollments"},React.createElement(er,null)))))}var
+    fe,kr,or=x(()=>{a();at();Lt();Bt();qt();tr();fe=d("lucide-react");kr=Wr});a();function
+    Or(){let e=d("react"),t=(or(),dr(rr)).default;window.React=e;let
+    r=d("react-dom/client").createRoot,l=r(c.container.querySelector(".root"));class
+    m extends e.Component{state={hasError:!1};static
+    getDerivedStateFromError(n){return{hasError:!0}}componentDidCatch(n,h){c.handleError(n,n?.name==="ModuleLoadingError")}render(){return
+    this.state.hasError?e.createElement("div",{class:"module-error"},"Something
+    went
+    wrong."):this.props.children}}l.render(e.createElement(m,null,e.createElement(t,null)))}Zone.current.fork({name:"angular-bootstrap",onHandleError(e,t,r,l){return
+    c.handleError(l,l?.name==="ModuleLoadingError"),c.onModulesLoaded(),!1}}).runGuarded(()=>{loadModulesSequentially(window["UIB_MODULES_TO_LOAD_UIB_PROD_BUILD_COMPONENT_ID_MOCK.id"]).then(()=>{delete
+    window["UIB_MODULES_TO_LOAD_UIB_PROD_BUILD_COMPONENT_ID_MOCK.id"],c.onModulesLoaded(),Or()})});})();
+
+
+    //# sourceURL=UIB_script_UIB_PROD_BUILD_COMPONENT_ID_MOCK.id.js</script>
+actions: {}
+slots:
+  - id: moduleContainerSlot
+    name: content
+    children: []

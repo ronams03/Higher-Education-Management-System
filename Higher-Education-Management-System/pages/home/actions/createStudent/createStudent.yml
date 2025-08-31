@@ -1,0 +1,71 @@
+id: '17566118990460.3672903608322605'
+kind: workflow
+name: createStudent
+nameConfigured: true
+steps:
+  - id: '17566120757380.9041457038103753'
+    type: customSQLQuery
+    name: query
+    params:
+      - type: datasourceId
+        value: '[Sample] Custom App_7ScouI9NPo'
+        valueType: custom
+        mustSelectFirst: true
+      - type: query
+        value: ./query-query.sql
+        valueType: interpolatedValue
+        interpolationType: string
+      - type: preparedQuery
+        value: ./query-preparedQuery.sql
+        valueType: interpolatedValue
+      - type: preparedQueryParams
+        value:
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.studentId)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.firstName)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.lastName)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.email)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.phone)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.dateOfBirth)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.address)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.yearLevelId)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.major)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.enrollmentDate)
+          - __UI_BAKERY__FORMAT_IF_DATE__(params.status)
+        valueType: custom
+      - type: customDatabaseName
+        value: ''
+        valueType: interpolatedValue
+      - type: stepVersion
+        value: 2
+        valueType: custom
+      - type: successMapper
+        value: ''
+        valueType: interpolatedValue
+        interpolationType: code
+      - type: failureMapper
+        value: ''
+        valueType: interpolatedValue
+        interpolationType: code
+      - type: mapperEnabled
+        value: false
+        valueType: custom
+    level: 0
+    fallthroughError: false
+    isChanged: false
+mode: manual
+modeConfigured: true
+parentPageId: '1'
+config:
+  shouldConfirm: false
+  confirmMessage: Are you sure you'd like to proceed with "{{actions.createStudent.name}}"?
+  showSuccessToast: false
+  successToast: Action "{{actions.createStudent.name}}" successfully executed
+  successToastDuration: '3000'
+  successToastHideByClick: false
+  showErrorToast: false
+  errorToast: Action "{{actions.createStudent.name}}" has failed
+  errorToastDuration: '3000'
+  errorToastHideByClick: false
+  delay: '0'
+  runWhenFirstReferenced: true
+  preserveStateOnPageChange: false
